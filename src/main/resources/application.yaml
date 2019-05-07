@@ -1,3 +1,13 @@
+admin:
+  contact: eduardo.ragado@hotmail.com
+  name: Eduardo Rasgado
+  doc:
+    title: MediWorkd User API Documentation
+    description: Mediworld User business API documentation
+    version: 1.0.0
+    license: Mediworld Ownership
+    licenseUrl: #
+    termsService: none
 spring:
   datasource:
     url: jdbc:postgresql://192.168.99.100:5432/postgres
