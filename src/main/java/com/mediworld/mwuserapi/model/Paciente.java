@@ -4,6 +4,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -14,15 +17,30 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table(name="paciente")
+@Table(name="paciente", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 public class Paciente {
     @Id
     @GeneratedValue(generator = "uuid-system")
     @GenericGenerator(name = "uuid-system", strategy = "uuid2")
     private String id;
+    @NotBlank
+    @Size(max = 15, min = 3)
     private String username;
+    @NotBlank
+    @Size(max = 40, min = 6)
+    @Email
     private String email;
+    @NotBlank
+    @Size(max = 100, min = 6)
     private String password;
+    @NotBlank
     private String nombre;
     private String apellidos;
 
