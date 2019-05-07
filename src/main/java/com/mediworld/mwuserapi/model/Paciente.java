@@ -25,7 +25,7 @@ import java.util.Date;
                 "email"
         })
 })
-public class Paciente {
+public class Paciente extends DateAudit {
     @Id
     @GeneratedValue(generator = "uuid-system")
     @GenericGenerator(name = "uuid-system", strategy = "uuid2")
@@ -48,6 +48,6 @@ public class Paciente {
     private Date fechaNacimiento;
     private boolean genero;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    //@Temporal(TemporalType.TIMESTAMP)
+    //private Date createdAt;
 }
