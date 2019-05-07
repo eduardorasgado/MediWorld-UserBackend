@@ -9,6 +9,8 @@ import java.util.Date;
 /**
  * <h1>User</h1>
  * Clase que representa el modelo de usuario dentro de la base de datos
+ *
+ * @author Eduardo Rasgado Ruiz
  */
 @Data
 @Entity
@@ -23,7 +25,11 @@ public class Paciente {
     private String password;
     private String nombre;
     private String apellidos;
+
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     private boolean genero;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 }

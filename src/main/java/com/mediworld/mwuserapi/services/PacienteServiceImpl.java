@@ -3,6 +3,8 @@ package com.mediworld.mwuserapi.services;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +17,8 @@ import java.util.Optional;
  * @author Eduardo Rasgado Ruiz
  */
 @Service
+@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW,
+                rollbackFor = Exception.class)
 public class PacienteServiceImpl implements IPacienteService {
 
     private final PacienteRepository pacienteRepository;
@@ -29,6 +33,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return El paciente deseado
      */
     @Override
+    @Transactional(readOnly = true)
     public Paciente getById(String id) {
         Optional<Paciente> pacienteContainer = this.pacienteRepository.findById(id);
         if(pacienteContainer.isPresent()){
