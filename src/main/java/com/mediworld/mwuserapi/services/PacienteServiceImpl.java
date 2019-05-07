@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -82,5 +83,15 @@ public class PacienteServiceImpl implements IPacienteService {
     @Override
     public Paciente update(Paciente paciente) {
         return this.pacienteRepository.save(paciente);
+    }
+
+    /**
+     * Metodo que realiza la transaccion para recuperar de todos los usuarios dentro de la
+     * base de datos
+     * @return
+     */
+    @Override
+    public List<Paciente> getAll() {
+        return this.pacienteRepository.findAll();
     }
 }

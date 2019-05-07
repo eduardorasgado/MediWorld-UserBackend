@@ -3,6 +3,8 @@ package com.mediworld.mwuserapi.services;
 
 import com.mediworld.mwuserapi.model.Paciente;
 
+import java.util.List;
+
 /**
  * <h1>PacienteService</h1>
  * Clase que permite traer las transacciones desde el repositorio del modelo de
@@ -42,5 +44,7 @@ public interface IPacienteService {
      * @return un paciente que fue actualizado o null
      */
     public Paciente update(Paciente paciente);
+
+    public List<Paciente> getAll();
 
 }

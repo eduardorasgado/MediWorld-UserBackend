@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <h1>PacienteResource</h1>
@@ -76,6 +77,15 @@ public class PacienteResource {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Metodo para devolver todas las entidades de paciente al frontend
+     * @return una lista de pacientes
+     */
+    @GetMapping
+    public ResponseEntity<List<Paciente>> getAll() {
+        return ResponseEntity.ok(this.pacienteService.getAll());
     }
 
     // -------------------------SECCION DE UTILERIA------------------------
