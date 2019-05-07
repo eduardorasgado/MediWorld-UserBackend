@@ -19,5 +19,5 @@ public class PacienteVO {
     private String apellidos;
     private Date fechaNacimiento;
     private boolean genero;
-    private Date createdAt;
+    //private Date createdAt;
 }

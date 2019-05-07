@@ -105,7 +105,7 @@ public class PacienteResource {
         paciente.setApellidos(pacienteVo.getApellidos());
         paciente.setFechaNacimiento(pacienteVo.getFechaNacimiento());
         paciente.setGenero(pacienteVo.isGenero());
-        paciente.setCreatedAt(new Date());
+        //paciente.setCreatedAt(new Date());
 
         return paciente;
     }
