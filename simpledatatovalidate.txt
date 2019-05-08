@@ -3,35 +3,33 @@ DATOS DE PRUEBA DE LA API
 Nuevo paciente:
 
 {
+  "apellidos": "Barraza",
+  "email": "panchito_b@gmail.com",
+  "fechaNacimiento": "1982-08-13T06:47:40.979Z",
+  "genero": "HOMBRE",
+  "nombre": "Francisco",
+  "password": "panchito1234",
+  "username": "panchito1234"
+}
+
+{
   "apellidos": "gonzalez jimenez",
-  "createdAt": "2019-05-07T06:21:53.737Z",
   "email": "r_g_jimenez@gmail.com",
   "fechaNacimiento": "1994-05-07T06:21:53.737Z",
-  "genero": true,
+  "genero": "HOMBRE",
   "nombre": "Rodolfo",
   "password": "rodolfo1234",
   "username": "rodolfoPro123"
 }
 
 {
-  "apellidos": "Barraza",
-  "email": "panchito_b@gmail.com",
-  "fechaNacimiento": "1982-08-13T06:47:40.979Z",
-  "genero": true,
-  "nombre": "Francisco",
-  "password": "panchito1234",
-  "username": "panchito1234"
-}
-
-{
-  "apellidos": "Barraza",
-  "createdAt": "2019-05-07T06:47:40.978Z",
-  "email": "panchito_b@gmail.com",
-  "fechaNacimiento": "1982-08-13T06:47:40.979Z",
-  "genero": true,
-  "nombre": "Francisco",
-  "password": "panchito1234",
-  "username": "panchito1234"
+  "apellidos": "Covarrubias Toledo",
+  "email": "nancy_toledo@gmail.com",
+  "fechaNacimiento": "1993-05-07T06:21:53.737Z",
+  "genero": "MUJER",
+  "nombre": "Nancy",
+  "password": "nancyCova1234",
+  "username": "NancyCovarrubias"
 }
 
 PASSWORD:
