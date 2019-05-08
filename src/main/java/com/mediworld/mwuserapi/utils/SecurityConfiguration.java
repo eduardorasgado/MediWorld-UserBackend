@@ -1,7 +1,10 @@
 package com.mediworld.mwuserapi.utils;
 
+import io.jsonwebtoken.JwtHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,6 +19,16 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
+// activa los niveles de seguridad
+@EnableGlobalMethodSecurity(
+        // activa la anotacion @Secured, con la cual se puede proteger un controller o service dado un rol
+        securedEnabled = true,
+        // activa la anotacion @RolesAlliwed
+        jsr250Enabled = true,
+        // activa empresiones complejas basadas en sintaxis de control de acceso:
+        // @PreAuthorize/@PostAuthoize
+        prePostEnabled = true
+)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
