@@ -45,6 +45,37 @@ public interface IPacienteService {
      */
     public Paciente update(Paciente paciente);
 
+    /**
+     * Metodo que consigue una lista de todos los pacientes disponibles de los repositorios
+     * @return
+     */
     public List<Paciente> getAll();
+
+    /**
+     * Metodo para encontrar un paciente dado su email
+     * @return
+     */
+    public Paciente findByEmail(String email);
+
+    /**
+     * Metodo para encontrar un paciente dado su nombre de usuario
+     * @param username
+     * @return
+     */
+    public Paciente findByUsername(String username);
+
+    /**
+     * Metodo para comprobar si existe un paciente dado su nombre de usuario
+     * @param username
+     * @return
+     */
+    public Boolean existsByUsername(String username);
+
+    /**
+     * Metodo para comprobar si existe un paciente dado su email
+     * @param email
+     * @return
+     */
+    public Boolean existsByEmail(String email);
 
 }

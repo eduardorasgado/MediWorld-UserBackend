@@ -94,4 +94,55 @@ public class PacienteServiceImpl implements IPacienteService {
     public List<Paciente> getAll() {
         return this.pacienteRepository.findAll();
     }
+
+    /**
+     * Metodo para encontrar un paciente dado su email
+     *
+     * @return
+     */
+    @Override
+    public Paciente findByEmail(String email) {
+        Optional<Paciente> pacienteContainer = this.pacienteRepository.findByEmail(email);
+        if(pacienteContainer.isPresent()){
+            return pacienteContainer.get();
+        }
+        return null;
+    }
+
+    /**
+     * Metodo para encontrar un paciente dado su nombre de usuario
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public Paciente findByUsername(String username) {
+        Optional<Paciente> pacienteContainer = this.pacienteRepository.findByUsername(username);
+        if(pacienteContainer.isPresent()) {
+            return pacienteContainer.get();
+        }
+        return null;
+    }
+
+    /**
+     * Metodo para comprobar si existe un paciente dado su nombre de usuario
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public Boolean existsByUsername(String username) {
+        return this.pacienteRepository.existsByUsername(username);
+    }
+
+    /**
+     * Metodo para comprobar si existe un paciente dado su email
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public Boolean existsByEmail(String email) {
+        return this.pacienteRepository.existsByEmail(email);
+    }
 }
