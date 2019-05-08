@@ -6,8 +6,8 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 /**
+ * <h1>Perfil</h1>
  * Clase que representa los roles del paciente dentro de la aplicacion
- *
  *
  * @author Eduardo Rasgado Ruiz
  */

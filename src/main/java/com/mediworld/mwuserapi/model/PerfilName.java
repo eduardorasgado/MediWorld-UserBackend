@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi.model;
 
 /**
+ * <h1>PerfilName</h1>
  * Representa el perfil que puede tener un paciente dentro de la aplicacion
  *
  * @author Eduardo Rasgado Ruiz
