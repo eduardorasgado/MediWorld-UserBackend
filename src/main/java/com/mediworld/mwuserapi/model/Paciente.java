@@ -31,7 +31,7 @@ public class Paciente extends DateAudit {
     @GenericGenerator(name = "uuid-system", strategy = "uuid2")
     private String id;
     @NotBlank
-    @Size(max = 15, min = 3)
+    @Size(max = 20, min = 3)
     private String username;
     @NotBlank
     @Size(max = 40, min = 6)
@@ -41,13 +41,17 @@ public class Paciente extends DateAudit {
     @Size(max = 100, min = 6)
     private String password;
     @NotBlank
+    @Size(max = 100, min = 2)
     private String nombre;
+    @NotBlank
+    @Size(max = 100, min = 2)
     private String apellidos;
 
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    private boolean genero;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Genero genero;
 
-    //@Temporal(TemporalType.TIMESTAMP)
-    //private Date createdAt;
+
 }
