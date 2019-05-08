@@ -23,7 +23,7 @@ public class MwUserApiApplication {
      * Metodo que define la zona horaria que manejara la api en general
      */
     @PostConstruct
-    void started() {
+    void init() {
         // zona horaria de la ciudad de Mexico ->Central Day Lightime
         TimeZone.setDefault(TimeZone.getTimeZone("CDT"));
     }

@@ -10,13 +10,13 @@ admin:
     termsService: none
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.99.100:5432/postgres
+    url: jdbc:postgresql://192.168.99.100:5432/postgres?useSSL=false&serverTimezone=CDT&useLegacyDatetimeCode=false
     username: postgres
     password: 74gcKypJChhzf19f
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     generate-ddl: true
     show-sql: true
     properties:

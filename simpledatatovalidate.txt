@@ -1,0 +1,36 @@
+DATOS DE PRUEBA DE LA API
+
+Nuevo paciente:
+
+{
+  "apellidos": "Barraza",
+  "email": "panchito_b@gmail.com",
+  "fechaNacimiento": "1982-08-13T06:47:40.979Z",
+  "genero": "HOMBRE",
+  "nombre": "Francisco",
+  "password": "panchito1234",
+  "username": "panchito1234"
+}
+
+{
+  "apellidos": "gonzalez jimenez",
+  "email": "r_g_jimenez@gmail.com",
+  "fechaNacimiento": "1994-05-07T06:21:53.737Z",
+  "genero": "HOMBRE",
+  "nombre": "Rodolfo",
+  "password": "rodolfo1234",
+  "username": "rodolfoPro123"
+}
+
+{
+  "apellidos": "Covarrubias Toledo",
+  "email": "nancy_toledo@gmail.com",
+  "fechaNacimiento": "1993-05-07T06:21:53.737Z",
+  "genero": "MUJER",
+  "nombre": "Nancy",
+  "password": "nancyCova1234",
+  "username": "NancyCovarrubias"
+}
+
+PASSWORD:
+	74gcKypJChhzf19f

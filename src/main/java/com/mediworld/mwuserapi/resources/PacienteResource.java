@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.resources;
 
+import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.resources.vo.PacienteVO;
 import com.mediworld.mwuserapi.services.IPacienteService;
@@ -104,8 +105,10 @@ public class PacienteResource {
         paciente.setNombre(pacienteVo.getNombre());
         paciente.setApellidos(pacienteVo.getApellidos());
         paciente.setFechaNacimiento(pacienteVo.getFechaNacimiento());
-        paciente.setGenero(pacienteVo.isGenero());
-        paciente.setCreatedAt(new Date());
+        if(pacienteVo.getGenero().equals("HOMBRE") || pacienteVo.getGenero().equals("MUJER")){
+            Genero genero = (pacienteVo.getGenero().equals("HOMBRE")) ? Genero.HOMBRE : Genero.MUJER;
+            paciente.setGenero(genero);
+        }
 
         return paciente;
     }

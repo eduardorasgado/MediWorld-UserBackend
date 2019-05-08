@@ -4,6 +4,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -14,22 +17,41 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table(name="paciente")
-public class Paciente {
+@Table(name="paciente", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
+public class Paciente extends DateAudit {
     @Id
     @GeneratedValue(generator = "uuid-system")
     @GenericGenerator(name = "uuid-system", strategy = "uuid2")
     private String id;
+    @NotBlank
+    @Size(max = 20, min = 3)
     private String username;
+    @NotBlank
+    @Size(max = 40, min = 6)
+    @Email
     private String email;
+    @NotBlank
+    @Size(max = 100, min = 6)
     private String password;
+    @NotBlank
+    @Size(max = 100, min = 2)
     private String nombre;
+    @NotBlank
+    @Size(max = 100, min = 2)
     private String apellidos;
 
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    private boolean genero;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Genero genero;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+
 }
