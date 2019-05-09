@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.utils;
 
+import com.mediworld.mwuserapi.security.JwtAuthenticationEntryPoint;
 import com.mediworld.mwuserapi.security.PacienteDetailsService;
 import io.jsonwebtoken.JwtHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     PacienteDetailsService pacienteDetailsService;
 
+    @Autowired
+    JwtAuthenticationEntryPoint unauthorizedHandler;
 
-
+    /**
+     * Metodo de configuracion principal de spring security para proteccion de
+     * la api
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()

@@ -15,14 +15,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * <h1>PacienteDetailsImpl</h1>
+ * <h1>PacientePrincipal</h1>
  * Cláse que representa los detalles mapeados de un paciente para tratarlos por la seguridad
  * de la aplicacion. Esta clase es usada por {@link PacienteDetailsService}
  *
  * @author Eduardo Rasgado Ruiz
  */
 @Data
-public class PacienteDetailsImpl implements UserDetails {
+public class PacientePrincipal implements UserDetails {
     private String id;
     private String username;
     private String nombre;
@@ -40,7 +40,7 @@ public class PacienteDetailsImpl implements UserDetails {
      * @param paciente Un paciente con todos los datos
      * @return
      */
-    public static PacienteDetailsImpl create(Paciente paciente) {
+    public static PacientePrincipal create(Paciente paciente) {
         // obteniendo las autoridades que representa el paciente
         List<GrantedAuthority> authorities = paciente
                 .getPerfiles()
@@ -50,7 +50,7 @@ public class PacienteDetailsImpl implements UserDetails {
                         )
                 .collect(Collectors.toList());
 
-        PacienteDetailsImpl pacienteAuth = new PacienteDetailsImpl();
+        PacientePrincipal pacienteAuth = new PacientePrincipal();
         pacienteAuth = mappingPaciente(pacienteAuth,  paciente, authorities);
 
         return pacienteAuth;
@@ -107,7 +107,7 @@ public class PacienteDetailsImpl implements UserDetails {
         if(this == o) { return true; }
         if(o == null || getClass() != o.getClass()) { return false; }
 
-        PacienteDetailsImpl that = (PacienteDetailsImpl) o;
+        PacientePrincipal that = (PacientePrincipal) o;
         return Objects.equals(id, that.id);
     }
 
@@ -118,14 +118,14 @@ public class PacienteDetailsImpl implements UserDetails {
 
     /**
      * Metodo que mapea los datos de un paciente a una entidad de tipo
-     * PacienteDetailsImpl
+     * PacientePrincipal
      * @param paAuth el paciente con auth
      * @param pa el paciente del modelo
      * @param authorities los permisos
      * @return un paciente con auth
      */
-    public static PacienteDetailsImpl mappingPaciente(PacienteDetailsImpl paAuth, Paciente pa,
-                                               List<GrantedAuthority> authorities) {
+    public static PacientePrincipal mappingPaciente(PacientePrincipal paAuth, Paciente pa,
+                                                    List<GrantedAuthority> authorities) {
         paAuth.setId(pa.getId());
         paAuth.setUsername(pa.getUsername());
         paAuth.setNombre(pa.getNombre());

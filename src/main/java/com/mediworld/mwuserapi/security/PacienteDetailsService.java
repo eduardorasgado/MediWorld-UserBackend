@@ -38,7 +38,7 @@ public class PacienteDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Paciente paciente = this.pacienteService.findByUsername(username);
-        return PacienteDetailsImpl.create(paciente);
+        return PacientePrincipal.create(paciente);
     }
 
     /**
@@ -49,7 +49,7 @@ public class PacienteDetailsService implements UserDetailsService {
     public UserDetails loadUserById(String id) {
         Paciente paciente = this.pacienteService.getById(id);
 
-        return PacienteDetailsImpl.create(paciente);
+        return PacientePrincipal.create(paciente);
     }
 }
 

@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * <h1>JwtAuthenticationEntryPoint</h1>
  * Componente que actua como entry point para comenzar con la autenticacion de tipo JWT dentro
  * de la aplicacion.
  * Este componente es usado en {@link com.mediworld.mwuserapi.utils.SecurityConfiguration}
+ *
+ * @author Eduardo Rasgado Ruiz
  */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
