@@ -33,7 +33,7 @@ public class PacienteDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //Paciente paciente = this.pacienteService.
+        Paciente paciente = this.pacienteService.findByUsername(username);
         return null;
     }
 }
