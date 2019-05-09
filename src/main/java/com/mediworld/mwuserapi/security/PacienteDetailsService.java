@@ -5,6 +5,7 @@ import com.mediworld.mwuserapi.services.IPacienteService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <h1>PacienteDetailsService</h1>
@@ -32,9 +33,21 @@ public class PacienteDetailsService implements UserDetailsService {
      *                                   GrantedAuthority
      */
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Paciente paciente = this.pacienteService.findByUsername(username);
-        return null;
+        return PacienteDetailsImpl.create(paciente);
+    }
+
+    /**
+     * encuentra un ususario dado su id y lo devuelve con sus authorities
+     * @param id
+     * @return
+     */
+    public UserDetails loadUserById(String id) {
+        Paciente paciente = this.pacienteService.getById(id);
+
+        return PacienteDetailsImpl.create(paciente);
     }
 }
 
