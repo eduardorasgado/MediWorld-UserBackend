@@ -2,7 +2,9 @@ package com.mediworld.mwuserapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -17,6 +19,11 @@ import java.util.TimeZone;
  * @version 1.0
  */
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@EntityScan(basePackageClasses = {
+        MwUserApiApplication.class,
+        // JPA 2.1 converters to turn JSR-310 types into legacy Date s.
+        Jsr310JpaConverters.class
+})
 public class MwUserApiApplication {
 
     /**

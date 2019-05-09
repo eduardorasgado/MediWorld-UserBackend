@@ -28,6 +28,11 @@ spring:
     user:
       name: userapi
       password: mediworlduserapi
+  # Jackson properties
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    time-zone: CDT
 
   queries:
     users-query: SELECT username, password, status FROM usuario WHERE username=?
