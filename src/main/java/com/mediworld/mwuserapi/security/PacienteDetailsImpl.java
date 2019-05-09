@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * <h1>PacienteDetailsImpl</h1>
  * Cláse que representa los detalles mapeados de un paciente para tratarlos por la seguridad
+ * de la aplicacion. Esta clase es usada por {@link PacienteDetailsService}
  *
  * @author Eduardo Rasgado Ruiz
  */
