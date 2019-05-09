@@ -1,5 +1,12 @@
 package com.mediworld.mwuserapi.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -18,6 +25,13 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private PacienteDetailsService pacienteDetailsService;
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
@@ -31,8 +45,49 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param filterChain
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+        try {
+            String jwtToken = this.getJwtFromRequest(request);
 
+            // si existe el token y si el token es valido
+            if(StringUtils.hasText(jwtToken) && this.tokenProvider.validateToken(jwtToken)) {
+                String pacienteId = this.tokenProvider.getPacienteIdFromJWT(jwtToken);
+
+                UserDetails pacienteDetails = this.pacienteDetailsService.loadUserById(pacienteId);
+
+                // se hace una presentacion estandarizada de los datos de paciente
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(pacienteDetails, null,
+                                pacienteDetails.getAuthorities());
+
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource()
+                                    .buildDetails(request));
+            }
+        } catch (Exception e) {
+            logger.error("No se pudo configurar la autenticacion del usuario en un contexto de seguridad", e);
+        }
+
+        // a Filter hides a number of details
+        /**
+         * The FilterChain#doFilter() call just continues the HTTP request to the destination,
+         * following exactly the same path as if you didn't use a filter in first place.
+         */
+        filterChain.doFilter(request, response);
     }
-    //
+
+    /**
+     * Meotod para obtener el token de una peticion del cliente
+     * @param request peticion
+     * @return el token extraido del request
+     */
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
+    }
 }
