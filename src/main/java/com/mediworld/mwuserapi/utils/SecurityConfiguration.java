@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.utils;
 
+import com.mediworld.mwuserapi.security.PacienteDetailsService;
 import io.jsonwebtoken.JwtHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,12 @@ import javax.sql.DataSource;
         prePostEnabled = true
 )
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    PacienteDetailsService pacienteDetailsService;
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
