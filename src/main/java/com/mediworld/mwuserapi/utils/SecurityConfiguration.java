@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi.utils;
 
 import com.mediworld.mwuserapi.security.JwtAuthenticationEntryPoint;
+import com.mediworld.mwuserapi.security.JwtAuthenticationFilter;
 import com.mediworld.mwuserapi.security.PacienteDetailsService;
 import io.jsonwebtoken.JwtHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 
     /**
      * Metodo de configuracion principal de spring security para proteccion de

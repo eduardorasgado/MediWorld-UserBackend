@@ -35,7 +35,7 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-    time-zone: CDT
+    time-zone: America/Mexico_City
 
   queries:
     users-query: SELECT username, password, status FROM usuario WHERE username=?
