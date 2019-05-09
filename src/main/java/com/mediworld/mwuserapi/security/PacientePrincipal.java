@@ -25,9 +25,13 @@ import java.util.stream.Collectors;
 public class PacientePrincipal implements UserDetails {
     private String id;
     private String username;
+    @JsonIgnore
     private String nombre;
+    @JsonIgnore
     private String apellidos;
+    @JsonIgnore
     private Date fechaNacimiento;
+    @JsonIgnore
     private Genero genero;
     @JsonIgnore
     private String email;
