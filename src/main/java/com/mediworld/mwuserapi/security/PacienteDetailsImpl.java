@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.Paciente;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -22,7 +24,10 @@ import java.util.stream.Collectors;
 public class PacienteDetailsImpl implements UserDetails {
     private String id;
     private String username;
-
+    private String nombre;
+    private String apellidos;
+    private Date fechaNacimiento;
+    private Genero genero;
     @JsonIgnore
     private String email;
     @JsonIgnore
@@ -121,9 +126,18 @@ public class PacienteDetailsImpl implements UserDetails {
     public static PacienteDetailsImpl mappingPaciente(PacienteDetailsImpl paAuth, Paciente pa,
                                                List<GrantedAuthority> authorities) {
         paAuth.setId(pa.getId());
-        paAuth.setEmail(pa.getEmail());
         paAuth.setUsername(pa.getUsername());
+        paAuth.setNombre(pa.getNombre());
+        paAuth.setApellidos(pa.getApellidos());
+        paAuth.setFechaNacimiento(pa.getFechaNacimiento());
+        paAuth.setEmail(pa.getEmail());
         paAuth.setPassword(pa.getPassword());
         paAuth.setAuthorities(authorities);
+
+        if(pa.getGenero().equals("HOMBRE") || pa.getGenero().equals("MUJER")){
+            Genero genero = (pa.getGenero().equals("HOMBRE")) ? Genero.HOMBRE : Genero.MUJER;
+            paAuth.setGenero(genero);
+        }
+        return paAuth;
     }
 }
