@@ -1,12 +1,15 @@
 package com.mediworld.mwuserapi.security;
 
 import com.mediworld.mwuserapi.model.Paciente;
+import com.mediworld.mwuserapi.repository.PacienteRepository;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * <h1>PacienteDetailsService</h1>
@@ -17,10 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PacienteDetailsService implements UserDetailsService {
 
+    /**
     private IPacienteService pacienteService;
 
     public PacienteDetailsService(IPacienteService pacienteService) {
         this.pacienteService = pacienteService;
+    }
+     **/
+    private PacienteRepository pacienteRepository;
+
+    public PacienteDetailsService(PacienteRepository pacienteRepository) {
+        this.pacienteRepository = pacienteRepository;
     }
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -37,8 +47,12 @@ public class PacienteDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Paciente paciente = this.pacienteService.findByUsername(username);
-        return PacientePrincipal.create(paciente);
+        //Paciente paciente = this.pacienteService.findByUsername(username);
+        Optional<Paciente> paciente = this.pacienteRepository.findByUsername(username);
+        if(paciente.isPresent()){
+            return PacientePrincipal.create(paciente.get());
+        }
+        return null;
     }
 
     /**
@@ -47,9 +61,12 @@ public class PacienteDetailsService implements UserDetailsService {
      * @return
      */
     public UserDetails loadUserById(String id) {
-        Paciente paciente = this.pacienteService.getById(id);
-
-        return PacientePrincipal.create(paciente);
+        //Paciente paciente = this.pacienteService.getById(id);
+        Optional<Paciente> paciente = this.pacienteRepository.findById(id);
+        if(paciente.isPresent()) {
+            return PacientePrincipal.create(paciente.get());
+        }
+        return null;
     }
 }
 
