@@ -1,7 +1,10 @@
 package com.mediworld.mwuserapi.controller;
 
+import com.mediworld.mwuserapi.exception.AppException;
 import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.Paciente;
+import com.mediworld.mwuserapi.model.Perfil;
+import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.ApiResponse;
 import com.mediworld.mwuserapi.payload.JwtAuthenticationResponse;
 import com.mediworld.mwuserapi.payload.LoginRequest;
@@ -20,8 +23,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.util.Collections;
 
 /**<h1>AuthController</h1>
  * Controlador de autenticacion que hace conexion con el frontend
@@ -101,8 +107,29 @@ public class AuthController {
 
         // Creando la nueva cuenta
         Paciente paciente = new Paciente();
+        paciente = this.mappingPaciente(paciente, signUpRequest);
 
-        return null;
+        Perfil perfil = perfilService.findByName(PerfilName.PACIENTE);
+        if (perfil == null) {
+            throw new AppException("Perfil de usuario no asignado");
+        }
+        // asignando el perfil al paciente
+        paciente.setPerfiles(Collections.singleton(perfil));
+
+        // guardando el paciente en la db
+        Paciente result = this.pacienteService.create(paciente);
+
+        // donde ir despues de la creacion del paciente
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/paciente/{username}")
+                .buildAndExpand(result.getUsername())
+                .toUri();
+
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(
+                        true, "Usuario registrado exitosamente"
+                ));
     }
 
     public Paciente mappingPaciente(Paciente paciente, SignUpRequest pacienteVO) {
