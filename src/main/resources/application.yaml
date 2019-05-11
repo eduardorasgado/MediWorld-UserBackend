@@ -8,6 +8,9 @@ admin:
     license: Mediworld Ownership
     licenseUrl: #
     termsService: none
+app:
+  jwtSecretKey: MediWorld74gcKypJChhzf19fKey
+  jwtExpirationInMs: 604800000
 spring:
   datasource:
     url: jdbc:postgresql://192.168.99.100:5432/postgres?useSSL=false&serverTimezone=CDT&useLegacyDatetimeCode=false
@@ -28,6 +31,11 @@ spring:
     user:
       name: userapi
       password: mediworlduserapi
+  # Jackson properties
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    time-zone: America/Mexico_City
 
   queries:
     users-query: SELECT username, password, status FROM usuario WHERE username=?

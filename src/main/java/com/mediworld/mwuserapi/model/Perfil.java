@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.model;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
  *
  * @author Eduardo Rasgado Ruiz
  */
+@Data
 @Entity
 @Table(name = "perfiles")
 public class Perfil {

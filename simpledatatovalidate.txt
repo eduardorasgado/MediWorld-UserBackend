@@ -34,3 +34,8 @@ Nuevo paciente:
 
 PASSWORD:
 	74gcKypJChhzf19f
+
+PERFILES:
+
+INSERT INTO perfiles (id, name) VALUES('L1', 'PACIENTE');
+INSERT INTO perfiles (id, name) VALUES('L2', 'PACIENTE_ACTIVE');

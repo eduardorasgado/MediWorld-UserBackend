@@ -4,10 +4,20 @@ import com.mediworld.mwuserapi.model.Perfil;
 import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.repository.PerfilRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * <h1>PerfilServiceImpl</h1>
+ *
+ * Implementacion de los metodos definidos en la interface {@link IPerfilService}
+ * para realizar las transacciones con el repositorio
+ *
+ * @author Eduardo Rasgado Ruiz
+ */
 @Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class PerfilServiceImpl implements IPerfilService{
 
     private PerfilRepository perfilRepository;

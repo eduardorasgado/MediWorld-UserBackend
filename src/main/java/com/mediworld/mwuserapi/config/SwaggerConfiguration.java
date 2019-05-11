@@ -1,4 +1,4 @@
-package com.mediworld.mwuserapi.utils;
+package com.mediworld.mwuserapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -63,4 +63,5 @@ public class SwaggerConfiguration {
                 .build()
                 .apiInfo(apiInfo());
     }
+
 }
