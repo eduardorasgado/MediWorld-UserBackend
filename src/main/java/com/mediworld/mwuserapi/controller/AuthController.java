@@ -12,6 +12,7 @@ import com.mediworld.mwuserapi.payload.SignUpRequest;
 import com.mediworld.mwuserapi.security.JwtTokenProvider;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import com.mediworld.mwuserapi.services.IPerfilService;
+import com.mediworld.mwuserapi.util.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -141,15 +142,17 @@ public class AuthController {
         paciente.setFechaNacimiento(pacienteVO.getFechaNacimiento());
         String genero = pacienteVO.getGenero();
         if(!genero.isEmpty()) {
-            if(genero.equals(Genero.HOMBRE) ||
-                    genero.equals(Genero.MUJER)){
-                if(genero.equals(Genero.HOMBRE)){
+            if(genero.equals(AppConstants.HOMBRE) ||
+                    genero.equals(AppConstants.MUJER))
+            {
+                if(genero.equals(AppConstants.HOMBRE)){
                     paciente.setGenero(Genero.HOMBRE);
                 } else {
                     paciente.setGenero(Genero.MUJER);
                 }
             }
         }
+
         return paciente;
     }
 
