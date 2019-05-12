@@ -42,11 +42,14 @@ public class MwUserApiApplication {
         Perfil paciente = new Perfil();
         Perfil pacienteActive = new Perfil();
 
-        paciente.setName(PerfilName.PACIENTE);
-        pacienteActive.setName(PerfilName.PACIENTE_ACTIVE);
-
-        perfilService.create(paciente);
-        perfilService.create(pacienteActive);
+        if(perfilService.findByName(PerfilName.PACIENTE) == null) {
+            paciente.setName(PerfilName.PACIENTE);
+            perfilService.create(paciente);
+        }
+        if(perfilService.findByName(PerfilName.PACIENTE_ACTIVE) == null){
+            pacienteActive.setName(PerfilName.PACIENTE_ACTIVE);
+            perfilService.create(pacienteActive);
+        }
         paciente = null;
         pacienteActive = null;
     }
