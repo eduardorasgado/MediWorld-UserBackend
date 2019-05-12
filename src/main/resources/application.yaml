@@ -25,6 +25,8 @@ spring:
     properties:
       hibernate:
         jdbc:
+          # permite ajustar la zona horaria con la que se guardan fechas en la db
+          time_zone: America/Mexico_City
           lob:
             non_contextual_creation: true
   security:
@@ -37,6 +39,7 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
     time-zone: UTC
 
+  # queries que corren durante el logueo de un admin en swagger: NO USADO ACTUALMENTE
   queries:
     users-query: SELECT username, password, status FROM usuario WHERE username=?
     roles-query: SELECT username, role FROM role WHERE username =?

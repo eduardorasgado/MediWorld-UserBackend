@@ -33,12 +33,15 @@ public class MwUserApiApplication {
     @Autowired
     private IPerfilService perfilService;
     /**
-     * Metodo que define la zona horaria que manejara la api en general
+     * Metodo que define la zona horaria que manejara la api en general, asi como inicializa
+     * los dos primeros perfiles en la base de datos
      */
     @PostConstruct
     void init() {
         // zona horaria de la ciudad de Mexico ->Central Day Lightime
         TimeZone.setDefault(TimeZone.getTimeZone("CDT"));
+
+        //Agregando dos perfiles iniciales a la base de datos
         Perfil paciente = new Perfil();
         Perfil pacienteActive = new Perfil();
 
