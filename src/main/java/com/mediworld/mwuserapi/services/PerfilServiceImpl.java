@@ -25,6 +25,20 @@ public class PerfilServiceImpl implements IPerfilService{
     public PerfilServiceImpl(PerfilRepository perfilRepository){
         this.perfilRepository = perfilRepository;
     }
+
+    /**
+     * Metodo para guardar un nuevo perfil en la base de datos por medio de
+     * un perfil recibido como parametro
+     *
+     * @param perfil perfil a ser creado
+     * @return perfil ya creado
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public Perfil create(Perfil perfil) {
+        return perfilRepository.save(perfil);
+    }
+
     /**
      * Metodo que devuelve un perfil dado un nombre de perfil
      *

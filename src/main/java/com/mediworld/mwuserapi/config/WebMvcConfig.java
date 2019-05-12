@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * <h1>WebMvcConfig</h1>
  * Clase que permite el acceso de un cliente frontend mediante requests de tipo
  * origin request.
  *

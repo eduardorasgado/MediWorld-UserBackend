@@ -1,5 +1,9 @@
 package com.mediworld.mwuserapi;
 
+import com.mediworld.mwuserapi.model.Perfil;
+import com.mediworld.mwuserapi.model.PerfilName;
+import com.mediworld.mwuserapi.services.IPerfilService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -26,6 +30,8 @@ import java.util.TimeZone;
 })
 public class MwUserApiApplication {
 
+    @Autowired
+    private IPerfilService perfilService;
     /**
      * Metodo que define la zona horaria que manejara la api en general
      */
@@ -33,6 +39,16 @@ public class MwUserApiApplication {
     void init() {
         // zona horaria de la ciudad de Mexico ->Central Day Lightime
         TimeZone.setDefault(TimeZone.getTimeZone("CDT"));
+        Perfil paciente = new Perfil();
+        Perfil pacienteActive = new Perfil();
+
+        paciente.setName(PerfilName.PACIENTE);
+        pacienteActive.setName(PerfilName.PACIENTE_ACTIVE);
+
+        perfilService.create(paciente);
+        perfilService.create(pacienteActive);
+        paciente = null;
+        pacienteActive = null;
     }
 
     /**
