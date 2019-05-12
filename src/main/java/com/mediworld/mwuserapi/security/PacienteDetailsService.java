@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.security;
 
+import com.mediworld.mwuserapi.exception.ResourceNotFoundException;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.repository.PacienteRepository;
 import com.mediworld.mwuserapi.services.IPacienteService;
@@ -18,15 +19,9 @@ import java.util.Optional;
  * @author Eduardo Rasgado Ruiz
  */
 @Service
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 public class PacienteDetailsService implements UserDetailsService {
 
-    /**
-    private IPacienteService pacienteService;
-
-    public PacienteDetailsService(IPacienteService pacienteService) {
-        this.pacienteService = pacienteService;
-    }
-     **/
     private PacienteRepository pacienteRepository;
 
     public PacienteDetailsService(PacienteRepository pacienteRepository) {
@@ -45,14 +40,12 @@ public class PacienteDetailsService implements UserDetailsService {
      *                                   GrantedAuthority
      */
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //Paciente paciente = this.pacienteService.findByUsername(username);
         Optional<Paciente> paciente = this.pacienteRepository.findByUsername(username);
         if(paciente.isPresent()){
             return PacientePrincipal.create(paciente.get());
         }
-        return null;
+        throw new UsernameNotFoundException("Usuario no encontrado con nombre de usuario");
     }
 
     /**
@@ -61,12 +54,11 @@ public class PacienteDetailsService implements UserDetailsService {
      * @return
      */
     public UserDetails loadUserById(String id) {
-        //Paciente paciente = this.pacienteService.getById(id);
         Optional<Paciente> paciente = this.pacienteRepository.findById(id);
         if(paciente.isPresent()) {
             return PacientePrincipal.create(paciente.get());
         }
-        return null;
+        throw new ResourceNotFoundException("Paciente", "id", id);
     }
 }
 

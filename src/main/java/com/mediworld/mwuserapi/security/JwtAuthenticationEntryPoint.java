@@ -44,7 +44,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException)
             throws IOException, ServletException {
         // metiendo los errores en el logger
-        logger.error("Respondiendo con un error no autorizado. Mensaje - {}",
+        logger.error("Respondiendo con un  mensaje de error (no autorizado). Mensaje - {}",
                 authException.getMessage());
 
         // enviando error inaccesable: no autorizado
