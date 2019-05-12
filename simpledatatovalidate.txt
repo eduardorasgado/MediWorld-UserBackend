@@ -35,7 +35,18 @@ Nuevo paciente:
 PASSWORD:
 	74gcKypJChhzf19f
 
-PERFILES:
+POSTGRES DB IMPORTANT SQL:
 
+CAMBIAR TIMEZONE:
+ALTER DATABASE postgres SET timezone to 'America/Mexico_City';
+SELECT NOW()
+
+Es necesario reiniciar o:
+SELECT pg_reload_conf();
+Para mirar la hora:
+SELECT NOW()
+
+CREAR PERFILES:
 INSERT INTO perfiles (id, name) VALUES('L1', 'PACIENTE');
 INSERT INTO perfiles (id, name) VALUES('L2', 'PACIENTE_ACTIVE');
+

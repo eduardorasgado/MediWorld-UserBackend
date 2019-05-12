@@ -13,7 +13,7 @@ app:
   jwtExpirationInMs: 604800000
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.99.100:5432/postgres?useSSL=false&serverTimezone=CDT&useLegacyDatetimeCode=false
+    url: jdbc:postgresql://192.168.99.100:5432/postgres?useUnicode=true&useSSL=false&serverTimezone=CDT&useLegacyDatetimeCode=false
     username: postgres
     password: 74gcKypJChhzf19f
     driver-class-name: org.postgresql.Driver
@@ -35,7 +35,7 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-    time-zone: America/Mexico_City
+    time-zone: UTC
 
   queries:
     users-query: SELECT username, password, status FROM usuario WHERE username=?
