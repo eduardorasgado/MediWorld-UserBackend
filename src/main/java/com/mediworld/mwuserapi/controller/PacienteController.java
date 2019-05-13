@@ -1,5 +1,6 @@
 package com.mediworld.mwuserapi.controller;
 
+import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.PacienteProfile;
 import com.mediworld.mwuserapi.security.CurrentPaciente;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,8 +35,8 @@ public class PacienteController {
     /**
      * Metodo para responder al cliente con los datos del usuario actualmente logueado dado
      * su token
-     * @param currentPaciente
-     * @return
+     * @param currentPaciente datos del paciente autenticado con su token
+     * @return entidad con los datos del paciente logueado
      */
     @GetMapping("/me")
     @PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
@@ -44,6 +46,24 @@ public class PacienteController {
                 currentPaciente.getUsername(),
                 currentPaciente.getNombre(),
                 currentPaciente.getApellidos());
+
+        return pacienteProfile;
+    }
+
+    /**
+     * Metodo que devuelve los datos de un determinado paciente, esto en caso de
+     * perfiles publicos de pacientes.
+     * @param username el nombre de usuario del paciente
+     * @return entidad con datos del paciente
+     */
+    @GetMapping("/paciente/{username}")
+    public PacienteProfile getPacienteProfile(@PathVariable(value="username")  String username) {
+        Paciente paciente = this.pacienteService.findByUsername(username);
+
+        PacienteProfile pacienteProfile = new PacienteProfile(paciente.getId(),
+                paciente.getUsername(),
+                paciente.getNombre(),
+                paciente.getApellidos());
 
         return pacienteProfile;
     }
