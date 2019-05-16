@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * DEPRECATED
  * <h1>PacienteResource</h1>
  * Controlador rest que recibe request y envia datos al frontend que lo requiera
  * dadas las urls
