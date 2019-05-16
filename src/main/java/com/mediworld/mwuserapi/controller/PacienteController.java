@@ -3,16 +3,14 @@ package com.mediworld.mwuserapi.controller;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.PacienteProfile;
+import com.mediworld.mwuserapi.payload.UserAuthDataAvailability;
 import com.mediworld.mwuserapi.security.CurrentPaciente;
 import com.mediworld.mwuserapi.security.PacientePrincipal;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <h1>PacienteController</h1>
@@ -66,5 +64,29 @@ public class PacienteController {
                 paciente.getApellidos());
 
         return pacienteProfile;
+    }
+
+    /**
+     * Metodo que comprueba la existencia o disponibilidad de un username determinado en los registros
+     * @param username
+     * @return
+     */
+    @GetMapping("/paciente/checkUsernameAvailability")
+    public UserAuthDataAvailability getUsernameAvailability(
+            @RequestParam("username") String username) {
+        Boolean availability = !this.pacienteService.existsByUsername(username);
+        return new UserAuthDataAvailability(availability);
+    }
+
+    /**
+     * Metodo que comprueba la existencia o disponibilidad de un email determinado en los registros
+     * de pacientes
+     * @param email
+     * @return
+     */
+    @GetMapping("paciente/checkUsernameAvailability")
+    public UserAuthDataAvailability getEmailAvailability(@RequestParam("email") String email){
+        Boolean availability = !this.pacienteService.existsByEmail(email);
+        return new UserAuthDataAvailability(availability);
     }
 }
