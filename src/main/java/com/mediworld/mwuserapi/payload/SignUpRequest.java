@@ -17,21 +17,22 @@ import java.util.Date;
 @Data
 public class SignUpRequest {
     @NotBlank
-    @Size(max = 20, min = 3)
+    @Size(max = 30, min = 3)
     private String username;
     @NotBlank
-    @Size(max = 40, min = 6)
+    @Size(max = 50, min = 6)
     @Email
     private String email;
     @NotBlank
     @Size(max = 100, min = 6)
     private String password;
     @NotBlank
-    @Size(max = 100, min = 2)
+    @Size(max = 40, min = 2)
     private String nombre;
     @NotBlank
-    @Size(max = 100, min = 2)
+    @Size(max = 70, min = 2)
     private String apellidos;
     private Date fechaNacimiento;
+    @Size(max=10)
     private String genero;
 }

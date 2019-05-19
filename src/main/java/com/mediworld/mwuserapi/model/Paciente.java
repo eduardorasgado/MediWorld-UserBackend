@@ -34,11 +34,11 @@ public class Paciente extends DateAudit {
     private String id;
 
     @NotBlank
-    @Size(max = 20, min = 3)
+    @Size(max = 30, min = 3)
     private String username;
 
     @NotBlank
-    @Size(max = 40, min = 6)
+    @Size(max = 50, min = 6)
     @Email
     private String email;
 
@@ -47,11 +47,11 @@ public class Paciente extends DateAudit {
     private String password;
 
     @NotBlank
-    @Size(max = 100, min = 2)
+    @Size(max = 50, min = 2)
     private String nombre;
 
     @NotBlank
-    @Size(max = 100, min = 2)
+    @Size(max = 70, min = 2)
     private String apellidos;
 
     @Temporal(TemporalType.DATE)
