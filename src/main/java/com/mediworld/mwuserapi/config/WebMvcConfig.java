@@ -25,6 +25,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "PUT",
                         "PATCH",
                         "DELETE")
+                //What is this for?
+                .allowedHeaders("*", "Access-Control-Allow-Headers", "origin", "Content-type", "accept", "x-requested-with", "x-requested-by")
+                .allowCredentials(true)
                 .maxAge(this.MAX_AGE_SECS);
     }
 }
