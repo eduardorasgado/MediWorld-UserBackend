@@ -84,7 +84,7 @@ public class PacienteController {
      * @param email
      * @return
      */
-    @GetMapping("paciente/checkUsernameAvailability")
+    @GetMapping("/paciente/checkEmailAvailability")
     public UserAuthDataAvailability getEmailAvailability(@RequestParam("email") String email){
         Boolean availability = !this.pacienteService.existsByEmail(email);
         return new UserAuthDataAvailability(availability);
