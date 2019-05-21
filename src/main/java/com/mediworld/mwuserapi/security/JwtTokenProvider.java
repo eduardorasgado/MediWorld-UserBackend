@@ -26,7 +26,7 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     /**
-     * Metodo para gneerar un token
+     * Metodo para generar un token con fecha de expiracion, en ms
      * @param authentication
      * @return
      */

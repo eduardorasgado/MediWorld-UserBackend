@@ -2,7 +2,7 @@ admin:
   contact: eduardo.ragado@hotmail.com
   name: Eduardo Rasgado
   doc:
-    title: MediWorkd User API Documentation
+    title: MediWorld User API Documentation
     description: Mediworld User business API documentation
     version: 1.0.0
     license: Mediworld Ownership
