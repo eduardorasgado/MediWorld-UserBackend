@@ -108,7 +108,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                .antMatchers("/",
+                // permitir request de recursos anonimos
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/v2/api-docs",           // swagger
+                        "/webjars/**",            // swagger-ui webjars
+                        "/swagger-resources/**",  // swagger-ui resources
+                        "/configuration/**", // swagger configuration
                         "/favicon.ico",
                         "/**/*.png",
                         "/**/*.gif",
@@ -120,16 +127,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/auth/**")
                     .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/paciente/**")
-                    .permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/api/paciente/checkUsernameAvailability",
+                                   "/api/paciente/checkEmailAvailability")
+                .permitAll()
+                //.antMatchers(HttpMethod.GET, "/api/paciente/**")
+                //    .permitAll()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin();
+                    .authenticated();
 
         // agregando nuestro filtro JWT de seguridad personalizado
         http
                 .addFilterBefore(jwtAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
+
+        // disable page caching
+        http
+                .headers().cacheControl();
     }
 }

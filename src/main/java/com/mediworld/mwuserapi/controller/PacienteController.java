@@ -54,16 +54,19 @@ public class PacienteController {
      * @param username el nombre de usuario del paciente
      * @return entidad con datos del paciente
      */
-    @GetMapping("/paciente/{username}")
+    @GetMapping("/{username}")
     public PacienteProfile getPacienteProfile(@PathVariable(value="username")  String username) {
         Paciente paciente = this.pacienteService.findByUsername(username);
 
-        PacienteProfile pacienteProfile = new PacienteProfile(paciente.getId(),
-                paciente.getUsername(),
-                paciente.getNombre(),
-                paciente.getApellidos());
+        if(paciente != null){
+            PacienteProfile pacienteProfile = new PacienteProfile(paciente.getId(),
+                    paciente.getUsername(),
+                    paciente.getNombre(),
+                    paciente.getApellidos());
 
-        return pacienteProfile;
+            return pacienteProfile;
+        }
+        return null;
     }
 
     /**
@@ -71,7 +74,7 @@ public class PacienteController {
      * @param username
      * @return
      */
-    @GetMapping("/paciente/checkUsernameAvailability")
+    @GetMapping("/checkUsernameAvailability")
     public UserAuthDataAvailability getUsernameAvailability(
             @RequestParam("username") String username) {
         Boolean availability = !this.pacienteService.existsByUsername(username);
@@ -84,7 +87,7 @@ public class PacienteController {
      * @param email
      * @return
      */
-    @GetMapping("/paciente/checkEmailAvailability")
+    @GetMapping("/checkEmailAvailability")
     public UserAuthDataAvailability getEmailAvailability(@RequestParam("email") String email){
         Boolean availability = !this.pacienteService.existsByEmail(email);
         return new UserAuthDataAvailability(availability);
