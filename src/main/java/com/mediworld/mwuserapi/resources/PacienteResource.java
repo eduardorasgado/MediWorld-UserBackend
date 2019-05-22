@@ -2,12 +2,15 @@ package com.mediworld.mwuserapi.resources;
 
 import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.Paciente;
+import com.mediworld.mwuserapi.payload.PacienteProfile;
 import com.mediworld.mwuserapi.resources.vo.PacienteVO;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,25 +33,10 @@ public class PacienteResource {
     }
 
     /**
-     * Metodo para crear un nuevo paciente con datos del frontend
-     * @param pacienteVo
-     * @return
-     */
-    @PostMapping
-    public ResponseEntity<Paciente> create(@RequestBody PacienteVO pacienteVo) {
-        Paciente paciente = new Paciente();
-        paciente = this.mappingPacienteUtil(paciente, pacienteVo);
-
-        paciente = this.pacienteService.create(paciente);
-        if(paciente != null) {
-            return new ResponseEntity<>(paciente, HttpStatus.CREATED);
-        }
-        // error al intentar crear el nuevo paciente
-        return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
-    /**
+     * @deprecated
      * Metodo para actualizar un paciente ya existente con datos del frontend
+     * TODO: Este metodo puede dividirse en secciones segun el tipo de conjunto de datos que
+     * va a actualizar el paciente: informacion_Basica, informacion_personal, informacion_medica_publica
      * @param idPaciente
      * @param pacienteVo
      * @return
@@ -79,15 +67,6 @@ public class PacienteResource {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    /**
-     * Metodo para devolver todas las entidades de paciente al frontend
-     * @return una lista de pacientes
-     */
-    @GetMapping
-    public ResponseEntity<List<Paciente>> getAll() {
-        return ResponseEntity.ok(this.pacienteService.getAll());
     }
 
     // -------------------------SECCION DE UTILERIA------------------------

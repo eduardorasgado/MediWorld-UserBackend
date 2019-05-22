@@ -127,12 +127,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/auth/**")
                     .permitAll()
-                .antMatchers(HttpMethod.GET,
+                .antMatchers(
                         "/api/paciente/checkUsernameAvailability",
                                    "/api/paciente/checkEmailAvailability")
                 .permitAll()
-                //.antMatchers(HttpMethod.GET, "/api/paciente/**")
-                //    .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/paciente/**")
+                    .permitAll()
                 .anyRequest()
                     .authenticated();
 
