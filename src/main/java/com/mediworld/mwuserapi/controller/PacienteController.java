@@ -9,8 +9,12 @@ import com.mediworld.mwuserapi.security.PacientePrincipal;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h1>PacienteController</h1>
@@ -55,6 +59,7 @@ public class PacienteController {
      * @return entidad con datos del paciente
      */
     @GetMapping("/{username}")
+    @PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
     public PacienteProfile getPacienteProfile(@PathVariable(value="username")  String username) {
         Paciente paciente = this.pacienteService.findByUsername(username);
 
@@ -91,5 +96,27 @@ public class PacienteController {
     public UserAuthDataAvailability getEmailAvailability(@RequestParam("email") String email){
         Boolean availability = !this.pacienteService.existsByEmail(email);
         return new UserAuthDataAvailability(availability);
+    }
+
+    /**
+     * Metodo para devolver todas las entidades de paciente al frontend
+     * @return una lista de pacientes
+     */
+    @GetMapping
+    //@PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
+    public ResponseEntity<List<PacienteProfile>> getAll() {
+        List<PacienteProfile> pacientes = new ArrayList<>();
+
+        for(Paciente p : this.pacienteService.getAll()) {
+            PacienteProfile pacienteResponse = new PacienteProfile(
+                    p.getId(),
+                    p.getUsername(),
+                    p.getNombre(),
+                    p.getApellidos()
+            );
+            pacientes.add(pacienteResponse);
+        }
+
+        return ResponseEntity.ok(pacientes);
     }
 }
