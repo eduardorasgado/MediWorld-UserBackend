@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
@@ -55,15 +56,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(StringUtils.hasText(jwtToken) && this.tokenProvider.validateToken(jwtToken)) {
                 String pacienteId = this.tokenProvider.getPacienteIdFromJWT(jwtToken);
 
+                /*
+                    Note that you could also encode the user's username and roles inside JWT claims
+                    and create the UserDetails object by parsing those claims from the JWT.
+                    That would avoid the following database hit. It's completely up to you.
+                 */
                 UserDetails pacienteDetails = this.pacienteDetailsService.loadUserById(pacienteId);
 
+                System.out.println("paciente data: "+pacienteDetails);
                 // se hace una presentacion estandarizada de los datos de paciente
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(pacienteDetails, null,
+                        new UsernamePasswordAuthenticationToken(
+                                pacienteDetails,
+                                null,
                                 pacienteDetails.getAuthorities());
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource()
                                     .buildDetails(request));
+
+                // cargar los datos de auntentificacion
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (Exception e) {
             logger.error("No se pudo configurar la autenticacion del usuario en un contexto de seguridad", e);
@@ -89,6 +101,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println(bearerToken);
 
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            System.out.println(bearerToken.substring(7, bearerToken.length()));
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;

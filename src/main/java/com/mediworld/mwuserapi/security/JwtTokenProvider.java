@@ -36,6 +36,7 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + this.jwtExpirationInMs);
 
+        System.out.println("paciente del provider: "+pacientePrincipal.getId());
         return Jwts.builder()
                 // mandando el id del paciente como body
                 .setSubject(pacientePrincipal.getId())
@@ -56,7 +57,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 // obteniendo el id del paciente
                 .getBody();
-
+        System.out.println("paciente del request: "+claims.getSubject());
         return claims.getSubject();
     }
 

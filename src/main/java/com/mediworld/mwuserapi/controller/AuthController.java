@@ -123,7 +123,7 @@ public class AuthController {
         // donde ir despues de la creacion del paciente
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
-                .path("/paciente/{username}")
+                .path("/api/paciente/{username}")
                 .buildAndExpand(result.getUsername())
                 .toUri();
 

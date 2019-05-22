@@ -64,17 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * el autenticador manager de la clase padre como bean de manager de autenticacion
-     * @return
-     * @throws Exception
-     */
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    /**
      * Configutracion de como se administra la autenticacion de los pacientes
      * @param authenticationManagerBuilder
      * @throws Exception
@@ -85,6 +74,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder
                 .userDetailsService(this.pacienteDetailsService)
                 .passwordEncoder(this.passwordEncoder());
+    }
+
+    /**
+     * el autenticador manager de la clase padre como bean de manager de autenticacion
+     * @return
+     * @throws Exception
+     */
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     /**
