@@ -41,7 +41,7 @@ public class PacienteController {
      * @return entidad con los datos del paciente logueado
      */
     @GetMapping("/me")
-    @PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
+    @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
     public PacienteProfile getCurrentPaciente(@CurrentPaciente PacientePrincipal currentPaciente) {
         PacienteProfile pacienteProfile = new PacienteProfile(
                 currentPaciente.getId(),
@@ -59,7 +59,7 @@ public class PacienteController {
      * @return entidad con datos del paciente
      */
     @GetMapping("/{username}")
-    @PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
+    @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
     public PacienteProfile getPacienteProfile(@PathVariable(value="username")  String username) {
         Paciente paciente = this.pacienteService.findByUsername(username);
 
@@ -103,7 +103,7 @@ public class PacienteController {
      * @return una lista de pacientes
      */
     @GetMapping
-    //@PreAuthorize("hasRole('PACIENTE') or hasRole('PACIENTE_ACTIVE')")
+    @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
     public ResponseEntity<List<PacienteProfile>> getAll() {
         List<PacienteProfile> pacientes = new ArrayList<>();
 
