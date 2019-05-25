@@ -1,10 +1,9 @@
 package com.mediworld.mwuserapi.controller;
 
 import com.mediworld.mwuserapi.model.Paciente;
-import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.PacienteProfile;
 import com.mediworld.mwuserapi.payload.UserAuthDataAvailability;
-import com.mediworld.mwuserapi.security.CurrentPaciente;
+import com.mediworld.mwuserapi.security.CurrentUsuario;
 import com.mediworld.mwuserapi.security.PacientePrincipal;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.slf4j.Logger;
@@ -42,7 +41,7 @@ public class PacienteController {
      */
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
-    public PacienteProfile getCurrentPaciente(@CurrentPaciente PacientePrincipal currentPaciente) {
+    public PacienteProfile getCurrentPaciente(@CurrentUsuario PacientePrincipal currentPaciente) {
         PacienteProfile pacienteProfile = new PacienteProfile(
                 currentPaciente.getId(),
                 currentPaciente.getUsername(),

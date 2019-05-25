@@ -5,7 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.lang.annotation.*;
 
 /**
- * <h1>CurrentPaciente</h1>
+ * <h1>CurrentUsuario</h1>
  * Clase para acceder al paciente actualmente autenticado en el controlador
  * Implementacion de una anotacion de interfaz: metanotacion
  * Crea un objeto virtual del paciente con la informacion del PacientePrincipal
@@ -16,5 +16,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @AuthenticationPrincipal
-public @interface CurrentPaciente {
+public @interface CurrentUsuario {
 }
