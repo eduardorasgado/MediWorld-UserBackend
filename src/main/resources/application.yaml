@@ -10,6 +10,7 @@ admin:
     termsService: none
 app:
   jwtSecretKey: MediWorld74gcKypJChhzf19fKey
+  # 7 dias aproximados de expiracion del token
   jwtExpirationInMs: 604800000
 spring:
   datasource:

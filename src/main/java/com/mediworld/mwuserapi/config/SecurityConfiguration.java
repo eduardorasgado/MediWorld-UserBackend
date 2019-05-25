@@ -6,6 +6,7 @@ import com.mediworld.mwuserapi.security.PacienteDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -25,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *
  * @author Eduardo Rasgado Ruiz
  */
-@Configuration
+
 @EnableWebSecurity
 // activa los niveles de seguridad
 @EnableGlobalMethodSecurity(
@@ -37,7 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // @PreAuthorize/@PostAuthoize
         prePostEnabled = true
 )
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Autowired
     PacienteDetailsService pacienteDetailsService;
@@ -70,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
-                throws Exception {
+            throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(this.pacienteDetailsService)
                 .passwordEncoder(this.passwordEncoder());
@@ -100,15 +101,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(this.unauthorizedHandler)
+                .authenticationEntryPoint(this.unauthorizedHandler)
                 .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                // permitir request de recursos anonimos
+                // permitir request anonimos de recursos
+                //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
@@ -126,15 +128,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers("/api/auth/**")
-                    .permitAll()
+                .permitAll()
                 .antMatchers(
                         "/api/paciente/checkUsernameAvailability",
-                                   "/api/paciente/checkEmailAvailability")
+                        "/api/paciente/checkEmailAvailability")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/paciente/**")
-                    .permitAll()
+                .permitAll()
                 .anyRequest()
-                    .authenticated();
+                .authenticated();
 
         // agregando nuestro filtro JWT de seguridad personalizado
         http
