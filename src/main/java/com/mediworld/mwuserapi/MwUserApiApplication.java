@@ -44,6 +44,8 @@ public class MwUserApiApplication {
         //Agregando dos perfiles iniciales a la base de datos
         Perfil paciente = new Perfil();
         Perfil pacienteActive = new Perfil();
+        Perfil medico = new Perfil();
+        Perfil medicoActive = new Perfil();
 
         if(perfilService.findByName(PerfilName.PACIENTE) == null) {
             paciente.setName(PerfilName.PACIENTE);
@@ -52,6 +54,15 @@ public class MwUserApiApplication {
         if(perfilService.findByName(PerfilName.PACIENTE_ACTIVE) == null){
             pacienteActive.setName(PerfilName.PACIENTE_ACTIVE);
             perfilService.create(pacienteActive);
+        }
+
+        if(perfilService.findByName(PerfilName.MEDICO) == null){
+            medico.setName(PerfilName.MEDICO);
+            perfilService.create(medico);
+        }
+        if(perfilService.findByName(PerfilName.MEDICO_ACTIVE) == null){
+            medicoActive.setName(PerfilName.MEDICO_ACTIVE);
+            perfilService.create(medicoActive);
         }
         paciente = null;
         pacienteActive = null;

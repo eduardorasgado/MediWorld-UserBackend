@@ -27,18 +27,23 @@ public class Country {
     private String id;
 
     @NotBlank
-    @Column(length = 74)
     //el nombre del pais mas largo es libia en su nombre nativo con 74 caracteres
-    private CountryName name;
+    @Column(length = 74)
+    private String name;
+
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_language")
+    private Language language;
 
     @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.EAGER)
     private Set<Paciente> nacimientoPaciente;
     @OneToMany(mappedBy = "paisNacimiento", fetch = FetchType.EAGER)
     private Set<Paciente> residenciaPaciente;
 
-    @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.LAZY)
     private Set<Medico> nacimientoMedico;
-    @OneToMany(mappedBy = "paisNacimiento", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "paisNacimiento", fetch = FetchType.LAZY)
     private Set<Medico> residenciaMedico;
 
 }
