@@ -10,5 +10,9 @@ public enum PerfilName {
     // un paciente normal
     PACIENTE,
     // un paciente que actualmente esta vendiendo sus datos
-    PACIENTE_ACTIVE
+    PACIENTE_ACTIVE,
+    // medico normal en plan free
+    MEDICO,
+    // medico que tiene suscripcion
+    MEDICO_ACTIVE
 }
