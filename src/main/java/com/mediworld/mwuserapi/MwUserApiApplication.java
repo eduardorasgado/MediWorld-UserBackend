@@ -41,6 +41,22 @@ public class MwUserApiApplication {
         // zona horaria de la ciudad de Mexico ->Central Day Lightime
         TimeZone.setDefault(TimeZone.getTimeZone("CDT"));
 
+        // NOTA: ESTAS OPERACIONES NO VAN A PRODUCCIÓN, ESTAS OPERACIONES SON HECHAS DESDE
+        // LA APLICACION FRONTEND ADMINISTRADORA
+        this.addProfiles();
+        this.addLanguages();
+        this.addCountries();
+    }
+
+    /**
+     * metodo que manda a llamar toda la aplicacion o entry point
+     * @param args
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(MwUserApiApplication.class, args);
+    }
+
+    public void addProfiles(){
         //Agregando dos perfiles iniciales a la base de datos
         Perfil paciente = new Perfil();
         Perfil pacienteActive = new Perfil();
@@ -66,14 +82,16 @@ public class MwUserApiApplication {
         }
         paciente = null;
         pacienteActive = null;
+        medico = null;
+        medicoActive = null;
     }
 
-    /**
-     * metodo que manda a llamar toda la aplicacion o entry point
-     * @param args
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(MwUserApiApplication.class, args);
+    public void addLanguages() {
+        System.out.println("[LANGUAGES CREATION: ARE NEEDED TO CREATE COUNTRIES]");
+    }
+
+    public void addCountries() {
+        System.out.println("[COUNTRIES CREATION: ARE NEEDED TO CREATE PACIENTE AND MEDICO, REQUIRES LANGUAGE]");
     }
 
 }

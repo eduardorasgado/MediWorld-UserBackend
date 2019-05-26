@@ -16,6 +16,8 @@ import java.util.Set;
  * @author Eduardo Rasgado Ruiz
  * @see EspecialidadMedica
  * @see Country
+ * @see Paciente
+ * @see Medico
  */
 @AllArgsConstructor
 @Data

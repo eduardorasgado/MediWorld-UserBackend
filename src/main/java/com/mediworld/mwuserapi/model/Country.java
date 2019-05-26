@@ -14,6 +14,8 @@ import java.util.Set;
  * manejará posibles normas legales o nomenclaturas
  *
  * @author Eduardo Rasgado Ruiz
+ * @see Paciente
+ * @see Medico
  */
 @Data
 @AllArgsConstructor
