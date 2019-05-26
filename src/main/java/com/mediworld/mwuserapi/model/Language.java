@@ -2,6 +2,7 @@ package com.mediworld.mwuserapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
@@ -20,6 +21,7 @@ import java.util.Set;
  * @see Medico
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name="languages", uniqueConstraints = {
