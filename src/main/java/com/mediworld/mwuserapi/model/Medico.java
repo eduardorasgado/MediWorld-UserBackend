@@ -25,4 +25,12 @@ public class Medico extends Usuario{
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_especialidadMedica")
+    private EspecialidadMedica especialidadMedica;
+
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_preferableLanguage")
+    private Language preferableLanguage;
 }
