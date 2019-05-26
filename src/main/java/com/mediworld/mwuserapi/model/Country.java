@@ -2,6 +2,7 @@ package com.mediworld.mwuserapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,8 +20,13 @@ import java.util.Set;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "countries")
+@Table(name = "countries", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "name"
+        })
+})
 public class Country {
 
     @Id

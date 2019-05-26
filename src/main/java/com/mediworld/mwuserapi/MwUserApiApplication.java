@@ -1,9 +1,6 @@
 package com.mediworld.mwuserapi;
 
-import com.mediworld.mwuserapi.model.Language;
-import com.mediworld.mwuserapi.model.LanguageCode;
-import com.mediworld.mwuserapi.model.Perfil;
-import com.mediworld.mwuserapi.model.PerfilName;
+import com.mediworld.mwuserapi.model.*;
 import com.mediworld.mwuserapi.services.ILanguageService;
 import com.mediworld.mwuserapi.services.IPerfilService;
 import com.mediworld.mwuserapi.util.AppConstants;
@@ -132,6 +129,18 @@ public class MwUserApiApplication {
 
     public void addCountries() {
         System.out.println("[COUNTRIES CREATION: ARE NEEDED TO CREATE PACIENTE AND MEDICO, REQUIRES LANGUAGE]");
+        Country mexico = new Country();
+        Country usa = new Country();
+        Country france = new Country();
+        Country chile = new Country();
+        Country buenosAires = new Country();
+
+        // verificar si existen los paises en la db previo a agregarlos
+        mexico = null;
+        usa = null;
+        france = null;
+        chile = null;
+        buenosAires = null;
     }
 
 }
