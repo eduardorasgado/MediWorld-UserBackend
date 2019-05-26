@@ -1,8 +1,12 @@
 package com.mediworld.mwuserapi;
 
+import com.mediworld.mwuserapi.model.Language;
+import com.mediworld.mwuserapi.model.LanguageCode;
 import com.mediworld.mwuserapi.model.Perfil;
 import com.mediworld.mwuserapi.model.PerfilName;
+import com.mediworld.mwuserapi.services.ILanguageService;
 import com.mediworld.mwuserapi.services.IPerfilService;
+import com.mediworld.mwuserapi.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,6 +36,9 @@ public class MwUserApiApplication {
 
     @Autowired
     private IPerfilService perfilService;
+
+    @Autowired
+    private ILanguageService languageService;
     /**
      * Metodo que define la zona horaria que manejara la api en general, asi como inicializa
      * los dos primeros perfiles en la base de datos
@@ -88,6 +95,39 @@ public class MwUserApiApplication {
 
     public void addLanguages() {
         System.out.println("[LANGUAGES CREATION: ARE NEEDED TO CREATE COUNTRIES]");
+        Language spanish = new Language();
+        Language english = new Language();
+        Language french = new Language();
+        Language german = new Language();
+
+        if(this.languageService.findByCode(LanguageCode.es) == null) {
+            spanish.setCode(LanguageCode.es);
+            spanish.setName(AppConstants.SPANISH);
+            this.languageService.create(spanish);
+        }
+
+        if(this.languageService.findByCode(LanguageCode.en) == null) {
+            english.setCode(LanguageCode.en);
+            english.setName(AppConstants.ENGLISH);
+            this.languageService.create(english);
+        }
+
+        if(this.languageService.findByCode(LanguageCode.fr) == null) {
+            french.setCode(LanguageCode.fr);
+            french.setName(AppConstants.FRENCH);
+            this.languageService.create(french);
+        }
+
+        if(this.languageService.findByCode(LanguageCode.de) == null) {
+            german.setCode(LanguageCode.de);
+            german.setName(AppConstants.GERMAN);
+            this.languageService.create(german);
+        }
+
+        spanish = null;
+        english = null;
+        french = null;
+        german = null;
     }
 
     public void addCountries() {
