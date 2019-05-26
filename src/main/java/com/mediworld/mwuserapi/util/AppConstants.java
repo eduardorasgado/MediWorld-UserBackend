@@ -13,4 +13,12 @@ public class AppConstants {
 
     public static final String MUJER = "MUJER";
 
+    public static final String SPANISH = "Spanish";
+
+    public static final String ENGLISH = "English";
+
+    public static final String FRENCH = "French";
+
+    public static final String GERMAN = "German";
+
 }

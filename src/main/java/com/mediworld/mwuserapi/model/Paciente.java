@@ -38,4 +38,8 @@ public class Paciente extends Usuario {
     @NotBlank
     @Size(max = 30, min = 3)
     private String username;
+
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_preferableLanguage")
+    private Language preferableLanguage;
 }

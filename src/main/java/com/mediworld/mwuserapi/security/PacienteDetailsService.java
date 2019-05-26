@@ -54,6 +54,7 @@ public class PacienteDetailsService implements UserDetailsService {
      * @return
      */
     public UserDetails loadUserById(String id) {
+        System.out.println((id));
         Optional<Paciente> paciente = this.pacienteRepository.findById(id);
         if(paciente.isPresent()) {
             return PacientePrincipal.create(paciente.get());
