@@ -20,6 +20,7 @@ import java.util.Set;
 @Data
 @MappedSuperclass
 public class Usuario extends DateAudit {
+
     @NotBlank
     @Size(max = 50, min = 6)
     @Email
@@ -44,9 +45,20 @@ public class Usuario extends DateAudit {
     @Column(nullable = false)
     private Genero genero;
 
+
+    @Enumerated(EnumType.STRING)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_paisResidencia")
+    private Country paisResidencia;
+
+    @Enumerated(EnumType.STRING)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_paisNacimiento")
+    private Country paisNacimiento;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "paciente_perfiles",
-            joinColumns = @JoinColumn(name = "paciente_id"),
+    @JoinTable(name = "usuario_perfiles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private Set<Perfil> perfiles = new HashSet<>();
 }
