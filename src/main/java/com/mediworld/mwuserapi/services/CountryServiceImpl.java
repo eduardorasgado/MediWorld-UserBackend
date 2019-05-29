@@ -4,6 +4,7 @@ import com.mediworld.mwuserapi.model.Country;
 import com.mediworld.mwuserapi.model.Language;
 import com.mediworld.mwuserapi.repository.CountryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,8 @@ import java.util.Optional;
  * @see com.mediworld.mwuserapi.model.Country
  */
 @Service
-public class CountryServiceImpl implements ICountryService{
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class CountryServiceImpl implements ICountryService {
 
     private CountryRepository countryRepository;
 
@@ -28,6 +30,7 @@ public class CountryServiceImpl implements ICountryService{
      * @param country
      * @return
      */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Country create(Country country) {
         return this.countryRepository.save(country);
     }
@@ -38,6 +41,7 @@ public class CountryServiceImpl implements ICountryService{
      * @param country
      * @return
      */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Country update(Country country) {
         return this.countryRepository.save(country);
     }
@@ -47,6 +51,7 @@ public class CountryServiceImpl implements ICountryService{
      *
      * @param country
      */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public boolean delete(Country country) {
         Optional<Country> countryContainer = this.countryRepository.findById(country.getId());
         if(countryContainer.isPresent()) {

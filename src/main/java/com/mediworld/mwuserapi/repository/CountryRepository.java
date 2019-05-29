@@ -3,6 +3,7 @@ package com.mediworld.mwuserapi.repository;
 import com.mediworld.mwuserapi.model.Country;
 import com.mediworld.mwuserapi.model.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
  * @author Eduardo Rasgado Ruiz
  * @see Country
  */
+@Repository
 public interface CountryRepository extends JpaRepository<Country, String> {
     /**
      * Metodo para obtener un pais dado su nombre
