@@ -21,12 +21,12 @@ public interface CountryRepository extends JpaRepository<Country, String> {
      * @param name
      * @return
      */
-    public Optional<Country> getByName(String name);
+    public Optional<Country> findByName(String name);
 
     /**
      * Metodo para obtener un pais dado un lenguaje
      * @param language
      * @return
      */
-    public List<Country> getByLanguage(Language language);
+    public List<Country> findByLanguage(Language language);
 }

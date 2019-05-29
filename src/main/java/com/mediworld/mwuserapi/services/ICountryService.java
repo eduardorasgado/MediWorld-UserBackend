@@ -4,6 +4,7 @@ import com.mediworld.mwuserapi.model.Country;
 import com.mediworld.mwuserapi.model.Language;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface que define los metodos para el acceso a los datos de paises
@@ -29,7 +30,7 @@ public interface ICountryService {
     /**
      * Metodo para eliminar un pais existente
      */
-    public void delete(Country country);
+    public boolean delete(Country country);
 
     /**
      * Metodo para obtener un pais dado su id
