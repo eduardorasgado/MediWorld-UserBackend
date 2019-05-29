@@ -3,6 +3,8 @@ package com.mediworld.mwuserapi.services;
 import com.mediworld.mwuserapi.model.Language;
 import com.mediworld.mwuserapi.model.LanguageCode;
 
+import java.util.List;
+
 /**
  * <h1>ILanguageService</h1>
  *
@@ -33,4 +35,10 @@ public interface ILanguageService {
      * @return
      */
     Language findByName(String name);
+
+    /**
+     * Metodo para obtener todos los lenguages sin usar un filtro
+     * @return
+     */
+    List<Language> getAll();
 }

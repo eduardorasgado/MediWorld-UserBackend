@@ -6,6 +6,7 @@ import com.mediworld.mwuserapi.repository.LanguageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,5 +64,15 @@ public class LanguageServiceImpl implements ILanguageService{
             return languageContainer.get();
         }
         return null;
+    }
+
+    /**
+     * Metodo para obtener todos los lenguages sin usar un filtro
+     *
+     * @return
+     */
+    @Override
+    public List<Language> getAll() {
+        return this.languageRepository.findAll();
     }
 }
