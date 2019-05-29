@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi;
 
 import com.mediworld.mwuserapi.model.*;
+import com.mediworld.mwuserapi.services.ICountryService;
 import com.mediworld.mwuserapi.services.ILanguageService;
 import com.mediworld.mwuserapi.services.IPerfilService;
 import com.mediworld.mwuserapi.util.AppConstants;
@@ -36,6 +37,9 @@ public class MwUserApiApplication {
 
     @Autowired
     private ILanguageService languageService;
+
+    @Autowired
+    private ICountryService countryService;
     /**
      * Metodo que define la zona horaria que manejara la api en general, asi como inicializa
      * los dos primeros perfiles en la base de datos
@@ -133,14 +137,40 @@ public class MwUserApiApplication {
         Country usa = new Country();
         Country france = new Country();
         Country chile = new Country();
-        Country buenosAires = new Country();
+        Country argentina = new Country();
+
+        if(this.countryService.findByName("Mexico") == null){
+            mexico.setName("Mexico");
+            mexico.setLanguage(this.languageService.findByCode(LanguageCode.es));
+            this.countryService.create(mexico);
+        }
+        if(this.countryService.findByName("Estados Unidos") == null){
+            usa.setName("Estados Unidos");
+            usa.setLanguage(this.languageService.findByCode(LanguageCode.en));
+            this.countryService.create(usa);
+        }
+        if(this.countryService.findByName("France") == null){
+            france.setName("France");
+            france.setLanguage(this.languageService.findByCode(LanguageCode.fr));
+            this.countryService.create(france);
+        }
+        if(this.countryService.findByName("Chile") == null){
+            chile.setName("Chile");
+            chile.setLanguage(this.languageService.findByCode(LanguageCode.es));
+            this.countryService.create(chile);
+        }
+        if(this.countryService.findByName("Argentina") == null){
+            argentina.setName("Argentina");
+            argentina.setLanguage(this.languageService.findByCode(LanguageCode.es));
+            this.countryService.create(argentina);
+        }
 
         // verificar si existen los paises en la db previo a agregarlos
         mexico = null;
         usa = null;
         france = null;
         chile = null;
-        buenosAires = null;
+        argentina = null;
     }
 
 }
