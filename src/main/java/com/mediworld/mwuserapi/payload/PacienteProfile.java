@@ -15,6 +15,7 @@ public class PacienteProfile {
     private String username;
     private String nombre;
     private String apellidos;
+    private LanguageResponse language;
 
     public PacienteProfile(String id, String username, String nombre, String apellidos) {
         this.id = id;
