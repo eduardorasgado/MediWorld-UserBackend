@@ -4,14 +4,22 @@ import com.mediworld.mwuserapi.model.Country;
 import com.mediworld.mwuserapi.model.EspecialidadMedica;
 import com.mediworld.mwuserapi.model.Language;
 import com.mediworld.mwuserapi.model.Medico;
+import com.mediworld.mwuserapi.repository.MedicoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
 public class MedicoServiceImpl implements IMedicoService{
+
+    private MedicoRepository medicoRepository;
+
+    public MedicoServiceImpl(MedicoRepository medicoRepository){
+        this.medicoRepository = medicoRepository;
+    }
 
     /**
      * Metodo para agregar un medico a la base de datos utilizando una entidad de medico
@@ -20,8 +28,9 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Medico create(Medico medico) {
-        return null;
+        return this.medicoRepository.save(medico);
     }
 
     /**
@@ -31,8 +40,9 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Medico update(Medico medico) {
-        return null;
+        return this.medicoRepository.save(medico);
     }
 
     /**
@@ -42,7 +52,13 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public boolean delete(Medico medico) {
+        Optional<Medico> medicoContainer = this.medicoRepository.findById(medico.getId());
+        if(medicoContainer.isPresent()){
+            this.medicoRepository.delete(medicoContainer.get());
+            return true;
+        }
         return false;
     }
 
@@ -54,6 +70,10 @@ public class MedicoServiceImpl implements IMedicoService{
      */
     @Override
     public Medico findById(String id) {
+        Optional<Medico> medico = this.medicoRepository.findById(id);
+        if(medico.isPresent()){
+            return medico.get();
+        }
         return null;
     }
 
@@ -64,7 +84,7 @@ public class MedicoServiceImpl implements IMedicoService{
      */
     @Override
     public List<Medico> findAll() {
-        return null;
+        return this.medicoRepository.findAll();
     }
 
     /**
@@ -75,6 +95,11 @@ public class MedicoServiceImpl implements IMedicoService{
      */
     @Override
     public Medico findByEmail(String email) {
+        Optional<Medico> medico = this.medicoRepository.findByEmail(email);
+
+        if(medico.isPresent()){
+            return medico.get();
+        }
         return null;
     }
 
@@ -86,8 +111,12 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
-    public List<Medico> findByEspecialidadMedicaAndPreferableLanguage(EspecialidadMedica especialidadMedica, Language language) {
-        return null;
+    public List<Medico> findByEspecialidadMedicaAndPreferableLanguage(
+            EspecialidadMedica especialidadMedica, Language language) {
+        return this.medicoRepository.findByEspecialidadMedicaAndPreferableLanguage(
+                especialidadMedica,
+                language
+        );
     }
 
     /**
@@ -98,8 +127,12 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
-    public List<Medico> findByEspecialidadMedicaAndPaisResidencia(EspecialidadMedica especialidadMedica, Country country) {
-        return null;
+    public List<Medico> findByEspecialidadMedicaAndPaisResidencia(
+            EspecialidadMedica especialidadMedica, Country country) {
+        return this.medicoRepository.findByEspecialidadMedicaAndPaisResidencia(
+                especialidadMedica,
+                country
+        );
     }
 
     /**
@@ -110,7 +143,11 @@ public class MedicoServiceImpl implements IMedicoService{
      * @return
      */
     @Override
-    public List<Medico> findByEspecialidadMedicaAndPaisNacimiento(EspecialidadMedica especialidadMedica, Country country) {
-        return null;
+    public List<Medico> findByEspecialidadMedicaAndPaisNacimiento(
+            EspecialidadMedica especialidadMedica, Country country) {
+        return this.medicoRepository.findByEspecialidadMedicaAndPaisNacimiento(
+                especialidadMedica,
+                country
+        );
     }
 }
