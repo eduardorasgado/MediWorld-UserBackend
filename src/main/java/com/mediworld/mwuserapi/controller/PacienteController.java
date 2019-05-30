@@ -3,10 +3,7 @@ package com.mediworld.mwuserapi.controller;
 import com.mediworld.mwuserapi.model.Language;
 import com.mediworld.mwuserapi.model.LanguageCode;
 import com.mediworld.mwuserapi.model.Paciente;
-import com.mediworld.mwuserapi.payload.ApiResponse;
-import com.mediworld.mwuserapi.payload.PacienteProfile;
-import com.mediworld.mwuserapi.payload.PreferableLanguageRequest;
-import com.mediworld.mwuserapi.payload.UserAuthDataAvailability;
+import com.mediworld.mwuserapi.payload.*;
 import com.mediworld.mwuserapi.security.CurrentUsuario;
 import com.mediworld.mwuserapi.security.PacientePrincipal;
 import com.mediworld.mwuserapi.services.ILanguageService;
@@ -46,7 +43,8 @@ public class PacienteController {
 
     /**
      * Metodo para responder al cliente con los datos del usuario actualmente logueado dado
-     * su token
+     * su token, también se incluye el lenguaje de preferencia por el paciente asi como su pais
+     * de origen
      * @param currentPaciente datos del paciente autenticado con su token
      * @return entidad con los datos del paciente logueado
      */
@@ -57,8 +55,17 @@ public class PacienteController {
                 currentPaciente.getId(),
                 currentPaciente.getUsername(),
                 currentPaciente.getNombre(),
-                currentPaciente.getApellidos());
+                currentPaciente.getApellidos()
+        );
 
+        if(currentPaciente.getPreferableLanguageCode() != null){
+            Language language = this.languageService.findByCode(
+                    currentPaciente.getPreferableLanguageCode());
+
+            pacienteProfile.setLanguage(new LanguageResponse(
+                    language.getId(), language.getName(), language.getCode().name()
+            ));
+        }
         return pacienteProfile;
     }
 
