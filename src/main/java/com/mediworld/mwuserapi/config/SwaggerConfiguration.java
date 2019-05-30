@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi.config;
 
 import com.google.common.collect.Lists;
+import com.google.common.net.HttpHeaders;
 import com.mediworld.mwuserapi.security.CurrentUsuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityScheme;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.List;
 
 /**
  * <h1>SwaggerConfiguration</h1>
@@ -62,9 +63,8 @@ public class SwaggerConfiguration {
                 .build();
     }
 
-    @Bean
-    SecurityScheme apiKey(){
-        return new ApiKey("accessToken", "Authorization", "header");
+    private ApiKey apiKey(){
+        return new ApiKey("JWT", HttpHeaders.AUTHORIZATION, "header");
     }
 
     @Bean
@@ -76,20 +76,24 @@ public class SwaggerConfiguration {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Lists.newArrayList(apiKey()))
+                .securityContexts(Lists.newArrayList(securityContext()))
                 .apiInfo(apiInfo());
     }
 
     @Bean
-    SecurityConfiguration security() {
-        return new SecurityConfiguration(
-                "test-app-client-id",
-                "test-app-client-secret",
-                "test-app-realm",
-                "mediworld",
-                "Bearer "+apiKeyString,
-                ApiKeyVehicle.HEADER,
-                "Authorization",
-                ","
-        );
+    SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+    }
+
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope
+                = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(
+                new SecurityReference("JWT", authorizationScopes));
     }
 }
