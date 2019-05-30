@@ -130,7 +130,8 @@ public class SecurityConfiguration {
                             "/**/*.js")
                     .permitAll()
                     .antMatchers("/api/auth/**",
-                            "/api/language/**")
+                            "/api/language/**",
+                            "/api/country/**")
                     .permitAll()
                     .antMatchers(
                             "/api/paciente/checkUsernameAvailability",
