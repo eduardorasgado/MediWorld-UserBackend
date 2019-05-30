@@ -57,6 +57,12 @@ public class PacienteController {
                 currentPaciente.getNombre(),
                 currentPaciente.getApellidos()
         );
+        if(!currentPaciente.getPaisNacimiento().isEmpty() ){
+            pacienteProfile.setPaisNacimiento(currentPaciente.getPaisNacimiento());
+        }
+        if(!currentPaciente.getPaisResidencia().isEmpty()) {
+            pacienteProfile.setPaisResidencia(currentPaciente.getPaisResidencia());
+        }
 
         if(currentPaciente.getPreferableLanguageCode() != null){
             Language language = this.languageService.findByCode(
