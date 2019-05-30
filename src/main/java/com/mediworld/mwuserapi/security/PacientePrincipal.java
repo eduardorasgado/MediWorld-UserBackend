@@ -40,6 +40,10 @@ public class PacientePrincipal implements UserDetails {
     @JsonIgnore
     private LanguageCode preferableLanguageCode;
     @JsonIgnore
+    private String paisNacimiento = "";
+    @JsonIgnore
+    private String paisResidencia = "";
+    @JsonIgnore
     private  String password;
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -142,6 +146,13 @@ public class PacientePrincipal implements UserDetails {
         paAuth.setEmail(pa.getEmail());
         paAuth.setPassword(pa.getPassword());
         paAuth.setAuthorities(authorities);
+
+        if(pa.getPaisNacimiento() != null){
+            paAuth.setPaisNacimiento(pa.getPaisNacimiento().getName());
+        }
+        if(pa.getPaisResidencia() != null) {
+            paAuth.setPaisResidencia(pa.getPaisResidencia().getName());
+        }
 
         if(pa.getPreferableLanguage() != null){
             paAuth.setPreferableLanguageCode(pa.getPreferableLanguage().getCode());
