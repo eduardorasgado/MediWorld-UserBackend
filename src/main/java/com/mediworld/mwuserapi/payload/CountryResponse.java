@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CountryResponse {
+    private String id;
     private String name;
+    private String languageId;
     private String language;
 }
