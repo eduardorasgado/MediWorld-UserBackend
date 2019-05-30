@@ -2,7 +2,9 @@ package com.mediworld.mwuserapi.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediworld.mwuserapi.model.Genero;
+import com.mediworld.mwuserapi.model.LanguageCode;
 import com.mediworld.mwuserapi.model.Paciente;
+import com.mediworld.mwuserapi.util.AppConstants;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +37,8 @@ public class PacientePrincipal implements UserDetails {
     private Genero genero;
     @JsonIgnore
     private String email;
+    @JsonIgnore
+    private LanguageCode preferableLanguageCode;
     @JsonIgnore
     private  String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -139,8 +143,14 @@ public class PacientePrincipal implements UserDetails {
         paAuth.setPassword(pa.getPassword());
         paAuth.setAuthorities(authorities);
 
-        if(pa.getGenero().equals("HOMBRE") || pa.getGenero().equals("MUJER")){
-            Genero genero = (pa.getGenero().equals("HOMBRE")) ? Genero.HOMBRE : Genero.MUJER;
+        if(pa.getPreferableLanguage() != null){
+            paAuth.setPreferableLanguageCode(pa.getPreferableLanguage().getCode());
+        }
+
+        if(pa.getGenero().name().equals(AppConstants.HOMBRE) || pa.getGenero().name()
+                .equals(AppConstants.MUJER)){
+            Genero genero = (pa.getGenero().name()
+                    .equals(AppConstants.HOMBRE)) ? Genero.HOMBRE : Genero.MUJER;
             paAuth.setGenero(genero);
         }
         return paAuth;
