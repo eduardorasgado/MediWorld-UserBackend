@@ -37,6 +37,21 @@ public class LanguageServiceImpl implements ILanguageService{
     }
 
     /**
+     * Metodo para encontrar un lenguaje existente dado su id
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Language findById(String id) {
+        Optional<Language> language = this.languageRepository.findById(id);
+        if(language.isPresent()){
+            return language.get();
+        }
+        return null;
+    }
+
+    /**
      * Metodo que permite encontrar un lenguage basado en el codigo Locale
      *
      * @param code
