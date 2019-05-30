@@ -1,6 +1,7 @@
 package com.mediworld.mwuserapi.config;
 
 import com.google.common.collect.Lists;
+import com.mediworld.mwuserapi.security.CurrentUsuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -69,6 +70,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket documentation() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .ignoredParameterTypes(CurrentUsuario.class)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
