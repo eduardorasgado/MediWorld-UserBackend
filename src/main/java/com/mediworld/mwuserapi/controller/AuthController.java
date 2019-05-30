@@ -62,7 +62,7 @@ public class AuthController {
      * @param loginRequest
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping("/paciente/login")
     public ResponseEntity<?> authenticatePaciente(
             @Valid @RequestBody LoginRequest loginRequest) {
 
@@ -88,7 +88,7 @@ public class AuthController {
      * @param signUpRequest los datos del nuevo paciente
      * @return
      */
-    @PostMapping("/register")
+    @PostMapping("/paciente/register")
     public ResponseEntity<?> registerPaciente(
             @Valid @RequestBody SignUpRequest signUpRequest) {
 
