@@ -44,9 +44,9 @@ public class Country {
     @JoinColumn(name = "id_language")
     private Language language;
 
-    @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.LAZY)
     private Set<Paciente> nacimientoPaciente;
-    @OneToMany(mappedBy = "paisNacimiento", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "paisNacimiento", fetch = FetchType.LAZY)
     private Set<Paciente> residenciaPaciente;
 
     @OneToMany(mappedBy = "paisResidencia", fetch = FetchType.LAZY)
