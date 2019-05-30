@@ -23,6 +23,13 @@ public interface ILanguageService {
     Language create(Language language);
 
     /**
+     * Metodo para encontrar un lenguaje existente dado su id
+     * @param id
+     * @return
+     */
+    Language findById(String id);
+
+    /**
      * Metodo que permite encontrar un lenguage basado en el codigo Locale
      * @param code
      * @return
