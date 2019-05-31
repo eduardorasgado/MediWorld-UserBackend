@@ -47,12 +47,12 @@ public class Language {
     @OneToMany(mappedBy = "language", fetch = FetchType.LAZY)
     private Set<EspecialidadMedica> especialidadMedicas;
 
-    @OneToMany(mappedBy = "language", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "language", fetch = FetchType.LAZY)
     private Set<Country> countries;
 
-    @OneToMany(mappedBy = "preferableLanguage", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "preferableLanguage", fetch = FetchType.LAZY)
     private Set<Paciente> pacientes;
 
-    @OneToMany(mappedBy = "preferableLanguage", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "preferableLanguage", fetch = FetchType.LAZY)
     private Set<Medico> medicos;
 }
