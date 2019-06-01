@@ -36,8 +36,8 @@ import java.util.Collections;
  * @author Eduardo Rasgado Ruiz
  */
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@RequestMapping("/api/auth/paciente")
+public class PacienteAuthController {
 
     private AuthenticationManager authenticationManager;
     private IPacienteService pacienteService;
@@ -45,11 +45,11 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
 
-    public AuthController(AuthenticationManager authenticationManager,
-                          IPacienteService pacienteService,
-                          IPerfilService perfilService,
-                          PasswordEncoder passwordEncoder,
-                          JwtTokenProvider jwtTokenProvider) {
+    public PacienteAuthController(AuthenticationManager authenticationManager,
+                                  IPacienteService pacienteService,
+                                  IPerfilService perfilService,
+                                  PasswordEncoder passwordEncoder,
+                                  JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.pacienteService = pacienteService;
         this.perfilService = perfilService;
@@ -62,7 +62,7 @@ public class AuthController {
      * @param loginRequest
      * @return
      */
-    @PostMapping("/paciente/login")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticatePaciente(
             @Valid @RequestBody LoginRequest loginRequest) {
 
@@ -78,7 +78,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // asignando un token al paciente logueado
-        String jwt = jwtTokenProvider.generateToken(authentication);
+        String jwt = jwtTokenProvider.generateToken(authentication, PerfilName.PACIENTE);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
@@ -88,7 +88,7 @@ public class AuthController {
      * @param signUpRequest los datos del nuevo paciente
      * @return
      */
-    @PostMapping("/paciente/register")
+    @PostMapping("/register")
     public ResponseEntity<?> registerPaciente(
             @Valid @RequestBody SignUpRequest signUpRequest) {
 
