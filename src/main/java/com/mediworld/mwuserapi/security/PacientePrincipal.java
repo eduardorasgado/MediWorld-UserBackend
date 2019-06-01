@@ -160,9 +160,7 @@ public class PacientePrincipal implements UserDetails {
 
         if(pa.getGenero().name().equals(AppConstants.HOMBRE) || pa.getGenero().name()
                 .equals(AppConstants.MUJER)){
-            Genero genero = (pa.getGenero().name()
-                    .equals(AppConstants.HOMBRE)) ? Genero.HOMBRE : Genero.MUJER;
-            paAuth.setGenero(genero);
+            paAuth.setGenero(pa.getGenero());
         }
         return paAuth;
     }
