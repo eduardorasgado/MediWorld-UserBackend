@@ -48,9 +48,10 @@ public class SwaggerConfiguration {
     @Value("${admin.doc.termsService}")
     private String termsService;
 
-    @Value("${app.jwtSecretKey}")
-    private String apiKeyString;
-
+    /**
+     * Campos que referencian informacion referente al negocio dentro de la documentacion
+     * @return
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(docTitle)
@@ -63,10 +64,20 @@ public class SwaggerConfiguration {
                 .build();
     }
 
+    /**
+     * Define el uso de token bearer dentro de los headers de las peticiones internas
+     * de la documentacion
+     * @return
+     */
     private ApiKey apiKey(){
         return new ApiKey("JWT", HttpHeaders.AUTHORIZATION, "header");
     }
 
+    /**
+     * Bean que define como va a manejar la documentacion en contexto con la aplicacion
+     * asi como su seguridad y la informacion
+     * @return
+     */
     @Bean
     public Docket documentation() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -80,6 +91,10 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo());
     }
 
+    /**
+     * Define un contexto de seguridad interno en la documentacion de swagger
+     * @return
+     */
     @Bean
     SecurityContext securityContext() {
         return SecurityContext.builder()
@@ -88,6 +103,10 @@ public class SwaggerConfiguration {
                 .build();
     }
 
+    /**
+     * Helper que define el metodo de parseo de la autentificacion
+     * @return
+     */
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
                 = new AuthorizationScope("global", "accessEverything");
