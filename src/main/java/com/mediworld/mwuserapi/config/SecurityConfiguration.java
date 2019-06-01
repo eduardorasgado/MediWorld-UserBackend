@@ -2,10 +2,12 @@ package com.mediworld.mwuserapi.config;
 
 import com.mediworld.mwuserapi.security.JwtAuthenticationEntryPoint;
 import com.mediworld.mwuserapi.security.JwtAuthenticationFilter;
+import com.mediworld.mwuserapi.security.MedicoDetailsService;
 import com.mediworld.mwuserapi.security.PacienteDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -40,43 +42,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration {
 
+    @Autowired
+    JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    /**
+     * Bean de filtro de autenticacion
+     * @return
+     */
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    /**
+     * Bean de encriptacion de contrasena
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Configuration
+    @Order(1)
     public class PacienteSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
         PacienteDetailsService pacienteDetailsService;
 
-        @Autowired
-        JwtAuthenticationEntryPoint unauthorizedHandler;
-
-        /**
-         * Bean de filtro de autenticacion
-         * @return
-         */
-        @Bean
-        public JwtAuthenticationFilter jwtAuthenticationFilter() {
-            return new JwtAuthenticationFilter();
-        }
-
-        /**
-         * Bean de encriptacion de contrasena
-         * @return
-         */
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
-
-        /**
-         * Configutracion de como se administra la autenticacion de los pacientes
-         * @param authenticationManagerBuilder
-         * @throws Exception
-         */
-        @Override
-        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
-                throws Exception {
-            authenticationManagerBuilder
-                    .userDetailsService(this.pacienteDetailsService)
-                    .passwordEncoder(this.passwordEncoder());
+        public PacienteSecurityConfiguration() {
+            super();
         }
 
         /**
@@ -88,6 +82,20 @@ public class SecurityConfiguration {
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
+        }
+
+
+        /**
+         * Configutracion de como se administra la autenticacion de los pacientes
+         * @param authenticationManagerBuilder
+         * @throws Exception
+         */
+        @Override
+        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+                throws Exception {
+            authenticationManagerBuilder
+                    .userDetailsService(this.pacienteDetailsService)
+                    .passwordEncoder(passwordEncoder());
         }
 
         /**
@@ -105,7 +113,7 @@ public class SecurityConfiguration {
                     .csrf()
                     .disable()
                     .exceptionHandling()
-                    .authenticationEntryPoint(this.unauthorizedHandler)
+                    .authenticationEntryPoint(unauthorizedHandler)
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -139,6 +147,8 @@ public class SecurityConfiguration {
                     .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/paciente/**")
                     .permitAll()
+                    .antMatchers("/api/paciente/preferableLanguage")
+                    .permitAll()
                     .anyRequest()
                     .authenticated();
 
@@ -151,10 +161,5 @@ public class SecurityConfiguration {
             http
                     .headers().cacheControl();
         }
-    }
-
-    //@Configuration
-    public class MedicoSecurityConfiguration extends WebSecurityConfigurerAdapter {
-        //
     }
 }

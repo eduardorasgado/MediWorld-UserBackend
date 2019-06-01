@@ -21,8 +21,14 @@ public class MedicoController {
     public MedicoController(IMedicoService medicoService) {
         this.medicoService = medicoService;
     }
+
+    /**
+     * Metodo para obtener los datos del medico actualmente logueado
+     * @return
+     */
     @GetMapping("/me")
     public Medico getCurrentMedico() {
+        System.out.println("Youre calling [Medico Rest Controller]");
         return null;
     }
 }
