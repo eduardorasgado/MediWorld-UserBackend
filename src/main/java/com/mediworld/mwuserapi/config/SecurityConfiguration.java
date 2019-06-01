@@ -129,7 +129,7 @@ public class SecurityConfiguration {
                             "/**/*.css",
                             "/**/*.js")
                     .permitAll()
-                    .antMatchers("/api/auth/**",
+                    .antMatchers("/api/auth/paciente/**",
                             "/api/language/**",
                             "/api/country/**")
                     .permitAll()
@@ -151,5 +151,10 @@ public class SecurityConfiguration {
             http
                     .headers().cacheControl();
         }
+    }
+
+    //@Configuration
+    public class MedicoSecurityConfiguration extends WebSecurityConfigurerAdapter {
+        //
     }
 }

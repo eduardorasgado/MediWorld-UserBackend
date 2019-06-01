@@ -5,7 +5,9 @@ import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.LanguageCode;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.util.AppConstants;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
  *
  * @author Eduardo Rasgado Ruiz
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class PacientePrincipal implements UserDetails {
     private String id;

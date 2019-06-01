@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 
 /**
  * Clase que define los datos de un medico usados para la autentificacion
- * por
+ *
+ * @author Eduardo Rasgado Ruiz
  */
 @Data
 public class MedicoPrincipal implements UserDetails {
