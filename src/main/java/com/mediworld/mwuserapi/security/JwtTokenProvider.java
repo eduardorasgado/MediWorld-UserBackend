@@ -31,7 +31,7 @@ public class JwtTokenProvider {
     // TODO: incorporar los campos de claims para medico, paciente perfil
     // TODO: Incorporar setters y getters para los claims
 
-    public static final String CLAIM_KEY_USER_ID = "id";
+    public static final String CLAIM_KEY_USER_ID = "sub";
     public static final String CLAIM_KEY_USERNAME = "username";
     public static final String CLAIM_KEY_PROFILE = "profile";
     public static final String CLAIM_KEY_MEDICO = "medico";
@@ -60,12 +60,13 @@ public class JwtTokenProvider {
         } else if(perfilName == PerfilName.MEDICO) {
             MedicoPrincipal medicoPrincipal = (MedicoPrincipal) authentication.getPrincipal();
             claims.put(CLAIM_KEY_USER_ID, medicoPrincipal.getId());
-            claims.put(CLAIM_KEY_PROFILE, CLAIM_KEY_MEDICO);
             // username para el medico es el email
             claims.put(CLAIM_KEY_USERNAME, medicoPrincipal.getUsername());
+            claims.put(CLAIM_KEY_PROFILE, CLAIM_KEY_MEDICO);
 
             System.out.println("medico del provider: "+medicoPrincipal.getId());
         } else {
+            System.out.println("[ERROR EN GENERATE TOKEN]");
             return null;
         }
         return Jwts.builder()
@@ -106,7 +107,7 @@ public class JwtTokenProvider {
         String userId;
         try {
             Claims claims = this.getClaimsFromJWT(token);
-            userId = (String) claims.get(CLAIM_KEY_USER_ID);
+            userId = (String) claims.getSubject();
         } catch (Exception e) {
             userId = null;
         }
@@ -168,6 +169,8 @@ public class JwtTokenProvider {
             logger.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
             logger.error("JWT claims string is empty.");
+        } catch (Exception e) {
+            logger.error("Null pointer en validacion");
         }
         return false;
     }
