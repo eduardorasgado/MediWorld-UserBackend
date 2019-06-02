@@ -32,10 +32,21 @@ public class EspecialidadMedica {
     @NotBlank
     private String name;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    /**
+     * Una especialidad medica debe de enviarse con el lenguaje en el que se encuentre
+     * escrito
+     */
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_language")
     private Language language;
 
-    @OneToMany(mappedBy = "especialidadMedica", fetch = FetchType.EAGER)
+    /**
+     * No necesito traerme a todos los medicos cuando pida una especialidad medica
+     * Por ejemplo: en medico controller mapeamos un medico con una especialidad medica
+     * dada del front, esta se guarda y cada que se pida desde la entidad de un medico
+     * no necesita llegar con la lista de todos los medicos. Esto volvería tonto
+     * un proceso como el de traerse la lista de todos los medicos de un pais.
+     */
+    @OneToMany(mappedBy = "especialidadMedica", fetch = FetchType.LAZY)
     private Set<Medico> medicos;
 }
