@@ -242,8 +242,8 @@ public class SecurityConfiguration {
                     .permitAll()
                     // permitir request anonimos de recursos
                     //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
-                    //.antMatchers("/api/auth/medico/**")
-                    //.permitAll()
+                    .antMatchers("/api/medico/auth/**")
+                    .permitAll()
                     //.antMatchers( "/api/medico/checkEmailAvailability")
                     //.permitAll()
                     .antMatchers(HttpMethod.GET, "/api/medico/**")
