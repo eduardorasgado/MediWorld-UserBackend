@@ -244,8 +244,8 @@ public class SecurityConfiguration {
                     //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
                     .antMatchers("/api/medico/auth/**")
                     .permitAll()
-                    //.antMatchers( "/api/medico/checkEmailAvailability")
-                    //.permitAll()
+                    .antMatchers( "/api/medico/checkEmailAvailability")
+                    .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/medico/**")
                     .permitAll()
                     .anyRequest()
