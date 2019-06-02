@@ -24,7 +24,7 @@ public class MedicoController {
 
     /**
      * Metodo para obtener los datos del medico actualmente logueado
-     * @return
+     * @return+
      */
     @GetMapping("/me")
     public Medico getCurrentMedico() {

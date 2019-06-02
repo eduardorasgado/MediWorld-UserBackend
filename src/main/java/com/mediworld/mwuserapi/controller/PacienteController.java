@@ -83,7 +83,7 @@ public class PacienteController {
      */
     @GetMapping("/{username}")
     @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
-    public PacienteProfile getPacienteProfile(@PathVariable(value="username")  String username) {
+    public ResponseEntity<PacienteProfile> getPacienteProfile(@PathVariable(value="username")  String username) {
         Paciente paciente = this.pacienteService.findByUsername(username);
 
         if(paciente != null){
@@ -92,9 +92,9 @@ public class PacienteController {
                     paciente.getNombre(),
                     paciente.getApellidos());
 
-            return pacienteProfile;
+            return ResponseEntity.ok(pacienteProfile);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     /**

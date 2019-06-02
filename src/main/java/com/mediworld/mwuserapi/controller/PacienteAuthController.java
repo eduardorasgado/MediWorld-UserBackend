@@ -36,7 +36,7 @@ import java.util.Collections;
  * @author Eduardo Rasgado Ruiz
  */
 @RestController
-@RequestMapping("/api/auth/paciente")
+@RequestMapping("/api/paciente/auth")
 public class PacienteAuthController {
 
     private AuthenticationManager authenticationManager;
