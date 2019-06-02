@@ -2,6 +2,7 @@ package com.mediworld.mwuserapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "medico", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
