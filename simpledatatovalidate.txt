@@ -33,7 +33,7 @@ Nuevo paciente:
 }
 
 {
-  "apellidos": "Covarrubias Toledo",
+  "apellidos": "Covarrubias Toledo",  
   "email": "nancy_toledo@gmail.com",
   "fechaNacimiento": "1993-05-07T06:21:53.737Z",
   "genero": "MUJER",
@@ -42,6 +42,16 @@ Nuevo paciente:
   "username": "NancyCovarrubias"
 }
 
+DATOS DE MEDICO
+{
+  "apellidos": "Cervantez Mujica",
+  "email": "teodoro.cerva@gmail.mx.edu",
+  "genero": "HOMBRE",
+  "nombre": "Esteban",
+  "password": "estebanCervantes1234"
+}
+
+DB:
 PASSWORD:
 	74gcKypJChhzf19f
 
