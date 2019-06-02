@@ -2,6 +2,7 @@ package com.mediworld.mwuserapi.controller;
 
 import com.mediworld.mwuserapi.model.Country;
 import com.mediworld.mwuserapi.payload.CountryResponse;
+import com.mediworld.mwuserapi.payload.LanguageResponse;
 import com.mediworld.mwuserapi.services.ICountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +42,11 @@ public class CountryController {
             countries.add(new CountryResponse(
                     c.getId(),
                     c.getName(),
-                    c.getLanguage().getId(),
-                    c.getLanguage().getName()
+                    new LanguageResponse(
+                            c.getLanguage().getId(),
+                            c.getLanguage().getName(),
+                            c.getLanguage().getCode().name()
+                    )
             ));
         }
 
