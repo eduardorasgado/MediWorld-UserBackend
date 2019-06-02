@@ -41,16 +41,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 @Configuration
 public class SecurityConfiguration {
-
-    @Autowired
-    JwtAuthenticationEntryPoint unauthorizedHandler;
-
     /**
      * Bean de filtro de autenticacion
      * @return
      */
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    public static JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
@@ -59,15 +55,24 @@ public class SecurityConfiguration {
      * @return
      */
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Configuration
     @Order(1)
-    public class PacienteSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    public static class PacienteSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
-        PacienteDetailsService pacienteDetailsService;
+        protected JwtAuthenticationEntryPoint unauthorizedHandler;
+
+        @Autowired
+        private PacienteDetailsService pacienteDetailsService;
+
+        @Autowired
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+        @Autowired
+        private PasswordEncoder passwordEncoder;
 
         public PacienteSecurityConfiguration() {
             super();
@@ -95,7 +100,7 @@ public class SecurityConfiguration {
                 throws Exception {
             authenticationManagerBuilder
                     .userDetailsService(this.pacienteDetailsService)
-                    .passwordEncoder(passwordEncoder());
+                    .passwordEncoder(passwordEncoder);
         }
 
         /**
@@ -113,11 +118,12 @@ public class SecurityConfiguration {
                     .csrf()
                     .disable()
                     .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
+                    .authenticationEntryPoint(this.unauthorizedHandler)
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
+                    .antMatcher("/api/paciente/**")
                     .authorizeRequests()
                     // permitir request anonimos de recursos
                     //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
@@ -137,7 +143,7 @@ public class SecurityConfiguration {
                             "/**/*.css",
                             "/**/*.js")
                     .permitAll()
-                    .antMatchers("/api/auth/paciente/**",
+                    .antMatchers("/api/paciente/auth/**",
                             "/api/language/**",
                             "/api/country/**")
                     .permitAll()
@@ -154,7 +160,100 @@ public class SecurityConfiguration {
 
             // agregando nuestro filtro JWT de seguridad personalizado
             http
-                    .addFilterBefore(jwtAuthenticationFilter(),
+                    .addFilterBefore(jwtAuthenticationFilter,
+                            UsernamePasswordAuthenticationFilter.class);
+
+            // disable page caching
+            http
+                    .headers().cacheControl();
+        }
+    }
+
+    @Configuration
+    @Order(2)
+    public static class MedicoSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Autowired
+        private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+        @Autowired
+        private MedicoDetailsService medicoDetailsService;
+
+        @Autowired
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        public MedicoSecurityConfiguration(){
+            super();
+        }
+
+        /**
+         * Configutracion de como se administra la autenticacion de los pacientes
+         * @param authenticationManagerBuilder
+         * @throws Exception
+         */
+        @Override
+        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+                throws Exception {
+            authenticationManagerBuilder
+                    .userDetailsService(this.medicoDetailsService)
+                    .passwordEncoder(passwordEncoder);
+        }
+
+        /**
+         * Metodo de configuracion principal de spring security para proteccion de
+         * la api
+         * @param http
+         * @throws Exception
+         */
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+
+            http
+                    .cors()
+                    .and()
+                    .csrf()
+                    .disable()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(this.unauthorizedHandler)
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .antMatcher("/api/medico/**")
+                    .authorizeRequests()
+                    .antMatchers(
+                            HttpMethod.GET,
+                            "/",
+                            "/v2/api-docs",           // swagger
+                            "/webjars/**",            // swagger-ui webjars
+                            "/swagger-resources/**",  // swagger-ui resources
+                            "/configuration/**", // swagger configuration
+                            "/favicon.ico",
+                            "/**/*.png",
+                            "/**/*.gif",
+                            "/**/*.svg",
+                            "/**/*.jpg",
+                            "/**/*.html",
+                            "/**/*.css",
+                            "/**/*.js")
+                    .permitAll()
+                    // permitir request anonimos de recursos
+                    //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
+                    //.antMatchers("/api/auth/medico/**")
+                    //.permitAll()
+                    //.antMatchers( "/api/medico/checkEmailAvailability")
+                    //.permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/medico/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated();
+
+            // agregando nuestro filtro JWT de seguridad personalizado
+            http
+                    .addFilterBefore(jwtAuthenticationFilter,
                             UsernamePasswordAuthenticationFilter.class);
 
             // disable page caching

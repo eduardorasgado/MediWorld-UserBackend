@@ -3,6 +3,16 @@ DATOS DE PRUEBA DE LA API
 Nuevo paciente:
 
 {
+  "apellidos": "Rasgado Ruiz",
+  "email": "eduardo.rasgado@gmail.com",
+  "fechaNacimiento": "1994-05-81T07:40:37.621Z",
+  "genero": "HOMBRE",
+  "nombre": "Eduardo",
+  "password": "gabagabahey",
+  "username": "eduardoRasgado"
+}
+
+{
   "apellidos": "Barraza",
   "email": "panchito_b@gmail.com",
   "fechaNacimiento": "1982-08-13T06:47:40.979Z",
