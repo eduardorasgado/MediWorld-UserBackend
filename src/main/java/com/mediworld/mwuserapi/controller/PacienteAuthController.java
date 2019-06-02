@@ -7,8 +7,8 @@ import com.mediworld.mwuserapi.model.Perfil;
 import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.ApiResponse;
 import com.mediworld.mwuserapi.payload.JwtAuthenticationResponse;
-import com.mediworld.mwuserapi.payload.LoginRequest;
-import com.mediworld.mwuserapi.payload.SignUpRequest;
+import com.mediworld.mwuserapi.payload.PacienteLoginRequest;
+import com.mediworld.mwuserapi.payload.PacienteSignUpRequest;
 import com.mediworld.mwuserapi.security.JwtTokenProvider;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import com.mediworld.mwuserapi.services.IPerfilService;
@@ -64,7 +64,7 @@ public class PacienteAuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> authenticatePaciente(
-            @Valid @RequestBody LoginRequest loginRequest) {
+            @Valid @RequestBody PacienteLoginRequest loginRequest) {
 
         // autenticando al usuario en cuestion
         Authentication authentication = authenticationManager.authenticate(
@@ -90,7 +90,7 @@ public class PacienteAuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerPaciente(
-            @Valid @RequestBody SignUpRequest signUpRequest) {
+            @Valid @RequestBody PacienteSignUpRequest signUpRequest) {
 
         // validando disponibilidad de el username
         if(pacienteService.existsByUsername(signUpRequest.getUsername())) {
@@ -133,7 +133,7 @@ public class PacienteAuthController {
                 ));
     }
 
-    public Paciente mappingPaciente(Paciente paciente, SignUpRequest pacienteVO) {
+    public Paciente mappingPaciente(Paciente paciente, PacienteSignUpRequest pacienteVO) {
         paciente.setUsername(pacienteVO.getUsername());
         paciente.setEmail(pacienteVO.getEmail());
         paciente.setPassword(passwordEncoder.encode(pacienteVO.getPassword()));
