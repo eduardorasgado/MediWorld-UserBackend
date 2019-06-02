@@ -1,11 +1,14 @@
 package com.mediworld.mwuserapi.controller;
 
+import com.mediworld.mwuserapi.model.Medico;
 import com.mediworld.mwuserapi.model.PerfilName;
+import com.mediworld.mwuserapi.payload.ApiResponse;
 import com.mediworld.mwuserapi.payload.JwtAuthenticationResponse;
 import com.mediworld.mwuserapi.payload.MedicoLoginRequest;
 import com.mediworld.mwuserapi.payload.MedicoSignUpRequest;
 import com.mediworld.mwuserapi.security.JwtTokenProvider;
 import com.mediworld.mwuserapi.services.IMedicoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -73,7 +76,16 @@ public class MedicoAuthController {
     public ResponseEntity<?> registerMedico(
             @Valid @RequestBody MedicoSignUpRequest signUpRequest
             ) {
-        System.out.println(signUpRequest);
+        // validando disponibilidad de email
+        if(this.medicoService.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<>(new ApiResponse(
+                    false, "El email ya se encuentra registrado"
+            ),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // creando la cuenta nueva
+        Medico medico = new Medico();
         return null;
     }
 }
