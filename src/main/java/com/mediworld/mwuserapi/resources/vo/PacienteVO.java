@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
+ * @deprecated
  * DEPRECATED
  * Clase que representa un paciente en bruto para realizar un mapeo con
  * la verdadera clase o modelo de paciente.
