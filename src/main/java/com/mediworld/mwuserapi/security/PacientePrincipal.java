@@ -29,18 +29,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Data
 public class PacientePrincipal implements UserDetails {
-    private String id;
-    private String username;
+    private String id = "";
+    private String username = "";
     @JsonIgnore
-    private String nombre;
+    private String nombre = "";
     @JsonIgnore
-    private String apellidos;
+    private String apellidos = "";
     @JsonIgnore
     private Date fechaNacimiento;
     @JsonIgnore
     private Genero genero;
     @JsonIgnore
-    private String email;
+    private String email = "";
     @JsonIgnore
     private LanguageCode preferableLanguageCode;
     @JsonIgnore
@@ -48,7 +48,7 @@ public class PacientePrincipal implements UserDetails {
     @JsonIgnore
     private String paisResidencia = "";
     @JsonIgnore
-    private  String password;
+    private  String password = "";
     private Collection<? extends GrantedAuthority> authorities;
 
     /**
@@ -162,9 +162,11 @@ public class PacientePrincipal implements UserDetails {
             paAuth.setPreferableLanguageCode(pa.getPreferableLanguage().getCode());
         }
 
-        if(pa.getGenero().name().equals(AppConstants.HOMBRE) || pa.getGenero().name()
-                .equals(AppConstants.MUJER)){
-            paAuth.setGenero(pa.getGenero());
+        if(pa.getGenero() != null) {
+            if(pa.getGenero().name().equals(AppConstants.HOMBRE) || pa.getGenero().name()
+                    .equals(AppConstants.MUJER)){
+                paAuth.setGenero(pa.getGenero());
+            }
         }
         return paAuth;
     }

@@ -143,9 +143,11 @@ public class MedicoPrincipal implements UserDetails {
         medicoPrincipal.setNombre(medico.getNombre());
         medicoPrincipal.setApellidos(medico.getApellidos());
         medicoPrincipal.setPassword(medico.getPassword());
-        if(medico.getGenero().name().equals(AppConstants.HOMBRE)
-                || medico.getGenero().name().equals(AppConstants.MUJER)){
-            medicoPrincipal.setGenero(medico.getGenero());
+        if(medico.getGenero() != null) {
+            if(medico.getGenero().name().equals(AppConstants.HOMBRE)
+                    || medico.getGenero().name().equals(AppConstants.MUJER)){
+                medicoPrincipal.setGenero(medico.getGenero());
+            }
         }
         if(medico.getEspecialidadMedica() != null){
             medicoPrincipal.setEspecialidadMedica(
