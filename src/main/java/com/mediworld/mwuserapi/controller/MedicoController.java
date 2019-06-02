@@ -1,9 +1,11 @@
 package com.mediworld.mwuserapi.controller;
 
 import com.mediworld.mwuserapi.model.Medico;
+import com.mediworld.mwuserapi.payload.UserAuthDataAvailability;
 import com.mediworld.mwuserapi.services.IMedicoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,11 +26,21 @@ public class MedicoController {
 
     /**
      * Metodo para obtener los datos del medico actualmente logueado
-     * @return+
+     * @return
      */
     @GetMapping("/me")
     public Medico getCurrentMedico() {
         System.out.println("Youre calling [Medico Rest Controller]");
         return null;
+    }
+
+    @GetMapping("/checkEmailAvailability")
+    public UserAuthDataAvailability getEmailAvailability(
+            @RequestParam("email") String email
+    ) {
+        boolean emailAvailable = !this.medicoService.existsByEmail(email);
+        return new UserAuthDataAvailability(
+                emailAvailable
+        );
     }
 }
