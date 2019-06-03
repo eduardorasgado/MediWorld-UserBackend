@@ -1,6 +1,8 @@
 package com.mediworld.mwuserapi.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <h1>PacienteProfile</h1>
@@ -10,19 +12,13 @@ import lombok.Data;
  * @author Eduardo Rasgado Ruiz
  */
 @Data
-public class PacienteProfile {
-    private String id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class PacienteProfile extends Profile {
     private String username;
-    private String nombre;
-    private String apellidos;
-    private LanguageResponse language;
-    private String paisNacimiento;
-    private String paisResidencia;
 
     public PacienteProfile(String id, String username, String nombre, String apellidos) {
-        this.id = id;
+        super(id, nombre, apellidos);
         this.username = username;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
     }
 }
