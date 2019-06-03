@@ -3,7 +3,6 @@ package com.mediworld.mwuserapi.security;
 import com.mediworld.mwuserapi.exception.ResourceNotFoundException;
 import com.mediworld.mwuserapi.model.Paciente;
 import com.mediworld.mwuserapi.repository.PacienteRepository;
-import com.mediworld.mwuserapi.services.IPacienteService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

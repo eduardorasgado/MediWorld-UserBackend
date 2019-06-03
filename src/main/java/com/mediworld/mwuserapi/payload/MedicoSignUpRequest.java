@@ -14,5 +14,11 @@ import javax.validation.constraints.Size;
  */
 @Data
 public class MedicoSignUpRequest extends BaseSignUpRequest{
-    //
+    /**
+     * Nota para version 1.0: Este id es de la especialidad medica dado el lenguage
+     * de preferencia que maneja el medico, esta especialidad no cambia al cambiar
+     * el pais de residencia.
+     * Esta especialidad es aplicable para el idioma del pais de residencia
+     */
+    //private String idEspecialidadMedica;
 }
