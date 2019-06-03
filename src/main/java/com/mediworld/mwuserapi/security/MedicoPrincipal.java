@@ -40,16 +40,6 @@ public class MedicoPrincipal implements UserDetails {
     private String telefonoCelularOpcionDos;
     private Collection<? extends GrantedAuthority> authorities;
 
-    /**
-     * Returns the authorities granted to the user. Cannot return <code>null</code>.
-     *
-     * @return the authorities, sorted by natural key (never <code>null</code>)
-     */
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
     public static MedicoPrincipal create(Medico medico) {
         List<GrantedAuthority> authorities = medico
                 .getPerfiles()
@@ -140,6 +130,7 @@ public class MedicoPrincipal implements UserDetails {
     private static MedicoPrincipal mappingMedico(
             MedicoPrincipal medicoPrincipal, Medico medico, List<GrantedAuthority> authorities) {
         medicoPrincipal.setId(medico.getId());
+        medicoPrincipal.setEmail(medico.getEmail());
         medicoPrincipal.setNombre(medico.getNombre());
         medicoPrincipal.setApellidos(medico.getApellidos());
         medicoPrincipal.setPassword(medico.getPassword());
