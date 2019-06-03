@@ -56,9 +56,4 @@ public class Usuario extends DateAudit {
     @JoinColumn(name = "id_paisNacimiento")
     private Country paisNacimiento;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "usuario_perfiles",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-    private Set<Perfil> perfiles = new HashSet<>();
 }

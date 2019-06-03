@@ -9,6 +9,8 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <h1>Medico</h1>
@@ -37,11 +39,18 @@ public class Medico extends Usuario{
     @Nullable
     private String telefonoCelularOpcionDos;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    // TODO: Cambiar a false el optional cuando se tenga el crud de especialidad medica
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_especialidadMedica")
     private EspecialidadMedica especialidadMedica;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_preferableLanguage")
     private Language preferableLanguage;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "medico_perfiles",
+            joinColumns = @JoinColumn(name = "medico_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    private Set<Perfil> perfiles = new HashSet<>();
 }

@@ -41,6 +41,15 @@ Nuevo paciente:
   "password": "nancyCova1234",
   "username": "NancyCovarrubias"
 }
+{
+  "apellidos": "Toquino Pahlmares",
+  "email": "rousimar.tpes@gmail.com",
+  "fechaNacimiento": "1980-01-16T10:06:40.827Z",
+  "genero": "HOMBRE",
+  "nombre": "Rousimar",
+  "password": "rousimar1234",
+  "username": "rousimarToq"
+}
 
 DATOS DE MEDICO
 {
@@ -49,6 +58,19 @@ DATOS DE MEDICO
   "genero": "HOMBRE",
   "nombre": "Esteban",
   "password": "estebanCervantes1234"
+}
+
+{
+  "email": "teodoro.cerva@gmail.mx.edu",
+  "password": "estebanCervantes1234"
+}
+
+{
+  "apellidos": "Saenz Palacios",
+  "email": "drSaenzPalacios@gmail.com",
+  "genero": "HOMBRE",
+  "nombre": "Dante",
+  "password": "dante.palacios123"
 }
 
 DB:
