@@ -28,9 +28,6 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    // TODO: incorporar los campos de claims para medico, paciente perfil
-    // TODO: Incorporar setters y getters para los claims
-
     public static final String CLAIM_KEY_USER_ID = "sub";
     public static final String CLAIM_KEY_USERNAME = "username";
     public static final String CLAIM_KEY_PROFILE = "profile";

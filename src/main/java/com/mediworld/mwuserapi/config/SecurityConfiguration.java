@@ -1,13 +1,9 @@
 package com.mediworld.mwuserapi.config;
 
-import com.mediworld.mwuserapi.security.JwtAuthenticationEntryPoint;
-import com.mediworld.mwuserapi.security.JwtAuthenticationFilter;
-import com.mediworld.mwuserapi.security.MedicoDetailsService;
-import com.mediworld.mwuserapi.security.PacienteDetailsService;
+import com.mediworld.mwuserapi.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -60,13 +56,12 @@ public class SecurityConfiguration {
     }
 
     @Configuration
-    @Order(1)
-    public static class PacienteSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    public static class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
         protected JwtAuthenticationEntryPoint unauthorizedHandler;
 
         @Autowired
-        private PacienteDetailsService pacienteDetailsService;
+        private AuthDetailsService authDetailsService;
 
         @Autowired
         private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -74,7 +69,8 @@ public class SecurityConfiguration {
         @Autowired
         private PasswordEncoder passwordEncoder;
 
-        public PacienteSecurityConfiguration() {
+
+        public UserSecurityConfiguration() {
             super();
         }
 
@@ -89,7 +85,6 @@ public class SecurityConfiguration {
             return super.authenticationManagerBean();
         }
 
-
         /**
          * Configutracion de como se administra la autenticacion de los pacientes
          * @param authenticationManagerBuilder
@@ -99,7 +94,7 @@ public class SecurityConfiguration {
         public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
                 throws Exception {
             authenticationManagerBuilder
-                    .userDetailsService(this.pacienteDetailsService)
+                    .userDetailsService(this.authDetailsService)
                     .passwordEncoder(passwordEncoder);
         }
 
@@ -143,6 +138,7 @@ public class SecurityConfiguration {
                             "/**/*.css",
                             "/**/*.js")
                     .permitAll()
+                    // PACIENTE
                     .antMatchers("/api/paciente/auth/**",
                             "/api/language/**",
                             "/api/country/**")
@@ -155,93 +151,7 @@ public class SecurityConfiguration {
                     .permitAll()
                     .antMatchers("/api/paciente/preferableLanguage")
                     .permitAll()
-                    .anyRequest()
-                    .authenticated();
-
-            // agregando nuestro filtro JWT de seguridad personalizado
-            http
-                    .addFilterBefore(jwtAuthenticationFilter,
-                            UsernamePasswordAuthenticationFilter.class);
-
-            // disable page caching
-            http
-                    .headers().cacheControl();
-        }
-    }
-
-    @Configuration
-    @Order(2)
-    public static class MedicoSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-        @Autowired
-        private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-        @Autowired
-        private MedicoDetailsService medicoDetailsService;
-
-        @Autowired
-        private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-        @Autowired
-        private PasswordEncoder passwordEncoder;
-
-        public MedicoSecurityConfiguration(){
-            super();
-        }
-
-        /**
-         * Configutracion de como se administra la autenticacion de los pacientes
-         * @param authenticationManagerBuilder
-         * @throws Exception
-         */
-        @Override
-        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
-                throws Exception {
-            authenticationManagerBuilder
-                    .userDetailsService(this.medicoDetailsService)
-                    .passwordEncoder(passwordEncoder);
-        }
-
-        /**
-         * Metodo de configuracion principal de spring security para proteccion de
-         * la api
-         * @param http
-         * @throws Exception
-         */
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-
-            http
-                    .cors()
-                    .and()
-                    .csrf()
-                    .disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(this.unauthorizedHandler)
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                    .antMatcher("/api/medico/**")
-                    .authorizeRequests()
-                    .antMatchers(
-                            HttpMethod.GET,
-                            "/",
-                            "/v2/api-docs",           // swagger
-                            "/webjars/**",            // swagger-ui webjars
-                            "/swagger-resources/**",  // swagger-ui resources
-                            "/configuration/**", // swagger configuration
-                            "/favicon.ico",
-                            "/**/*.png",
-                            "/**/*.gif",
-                            "/**/*.svg",
-                            "/**/*.jpg",
-                            "/**/*.html",
-                            "/**/*.css",
-                            "/**/*.js")
-                    .permitAll()
-                    // permitir request anonimos de recursos
-                    //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
+                    // MEDICO
                     .antMatchers("/api/medico/auth/**")
                     .permitAll()
                     .antMatchers( "/api/medico/checkEmailAvailability")
