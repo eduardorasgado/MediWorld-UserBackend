@@ -15,6 +15,5 @@ import lombok.Data;
 public class CountryResponse {
     private String id;
     private String name;
-    private String languageId;
-    private String language;
+    private LanguageResponse language;
 }

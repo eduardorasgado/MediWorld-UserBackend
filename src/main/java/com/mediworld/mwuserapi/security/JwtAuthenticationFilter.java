@@ -32,6 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private PacienteDetailsService pacienteDetailsService;
 
+    @Autowired
+    private MedicoDetailsService medicoDetailsService;
+
+
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     /**
@@ -51,31 +55,64 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwtToken = this.getJwtFromRequest(request);
-
-            // si existe el token y si el token es valido
-            if(StringUtils.hasText(jwtToken) && this.tokenProvider.validateToken(jwtToken)) {
-                String pacienteId = this.tokenProvider.getPacienteIdFromJWT(jwtToken);
+            if(jwtToken != null){
+                // si existe el token y si el token es valido
+                if(StringUtils.hasText(jwtToken) && this.tokenProvider.validateToken(jwtToken)) {
+                    //String userId = this.tokenProvider.getUserIdFromJWT(jwtToken);
+                    String username = this.tokenProvider.getUsernameFromJWT(jwtToken);
 
                 /*
                     Note that you could also encode the user's username and roles inside JWT claims
                     and create the UserDetails object by parsing those claims from the JWT.
                     That would avoid the following database hit. It's completely up to you.
                  */
-                UserDetails pacienteDetails = this.pacienteDetailsService.loadUserById(pacienteId);
+                    UsernamePasswordAuthenticationToken authenticationToken = null;
+                    System.out.println("PACIENTE IS IN TOKEN: "+this.tokenProvider.getProfileFromJWT(jwtToken)
+                            .equals(JwtTokenProvider.CLAIM_KEY_PACIENTE));
 
-                System.out.println("paciente data: "+pacienteDetails);
-                // se hace una presentacion estandarizada de los datos de paciente
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(
-                                pacienteDetails,
-                                null,
-                                pacienteDetails.getAuthorities());
+                    if(this.tokenProvider.getProfileFromJWT(jwtToken)
+                            .equals(JwtTokenProvider.CLAIM_KEY_PACIENTE)){
 
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource()
-                                    .buildDetails(request));
+                        UserDetails pacienteDetails = this.pacienteDetailsService.loadUserByUsername(
+                                username
+                        );
 
-                // cargar los datos de auntentificacion
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        System.out.println("paciente data: "+pacienteDetails);
+                        // se hace una presentacion estandarizada de los datos de paciente
+                        authenticationToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        pacienteDetails,
+                                        null,
+                                        pacienteDetails.getAuthorities());
+                    }
+
+                    System.out.println("MEDICO IS IN: TOKEN "+this.tokenProvider.getProfileFromJWT(jwtToken)
+                            .equals(JwtTokenProvider.CLAIM_KEY_MEDICO));
+
+                    if(this.tokenProvider.getProfileFromJWT(jwtToken)
+                            .equals(JwtTokenProvider.CLAIM_KEY_MEDICO)) {
+                        UserDetails medicoDetails = this.medicoDetailsService.loadUserByUsername(
+                                username
+                        );
+
+                        System.out.println("medico data: "+medicoDetails);
+                        authenticationToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        medicoDetails,
+                                        null,
+                                        medicoDetails.getAuthorities()
+                                );
+
+                    }
+
+                    if(authenticationToken != null){
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource()
+                                .buildDetails(request));
+
+                        // cargar los datos de auntentificacion
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    }
+                }
             }
         } catch (Exception e) {
             logger.error("No se pudo configurar la autenticacion del usuario en un contexto de seguridad", e);

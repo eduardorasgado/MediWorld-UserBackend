@@ -9,7 +9,8 @@ admin:
     licenseUrl: #
     termsService: none
 app:
-  jwtSecretKey: MediWorld74gcKypJChhzf19fKey
+  jwtPacienteSecretKey: MediWorld74gcKypJChhzf19fPacienteKey
+  jwtMedicoSecretKey: MediWorld74gcKypJChhzf19fMedicoKey
   # 7 dias aproximados de expiracion del token
   jwtExpirationInMs: 604800000
 spring:

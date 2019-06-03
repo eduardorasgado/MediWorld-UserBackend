@@ -91,6 +91,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Paciente> getAll() {
         return this.pacienteRepository.findAll();
     }
@@ -101,6 +102,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Paciente findByEmail(String email) {
         Optional<Paciente> pacienteContainer = this.pacienteRepository.findByEmail(email);
         if(pacienteContainer.isPresent()){
@@ -116,6 +118,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Paciente findByUsername(String username) {
         Optional<Paciente> pacienteContainer = this.pacienteRepository.findByUsername(username);
         if(pacienteContainer.isPresent()) {
@@ -131,6 +134,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Boolean existsByUsername(String username) {
         return this.pacienteRepository.existsByUsername(username);
     }
@@ -142,6 +146,7 @@ public class PacienteServiceImpl implements IPacienteService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public Boolean existsByEmail(String email) {
         return this.pacienteRepository.existsByEmail(email);
     }

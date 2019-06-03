@@ -7,8 +7,8 @@ import com.mediworld.mwuserapi.model.Perfil;
 import com.mediworld.mwuserapi.model.PerfilName;
 import com.mediworld.mwuserapi.payload.ApiResponse;
 import com.mediworld.mwuserapi.payload.JwtAuthenticationResponse;
-import com.mediworld.mwuserapi.payload.LoginRequest;
-import com.mediworld.mwuserapi.payload.SignUpRequest;
+import com.mediworld.mwuserapi.payload.PacienteLoginRequest;
+import com.mediworld.mwuserapi.payload.PacienteSignUpRequest;
 import com.mediworld.mwuserapi.security.JwtTokenProvider;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import com.mediworld.mwuserapi.services.IPerfilService;
@@ -36,8 +36,8 @@ import java.util.Collections;
  * @author Eduardo Rasgado Ruiz
  */
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@RequestMapping("/api/paciente/auth")
+public class PacienteAuthController {
 
     private AuthenticationManager authenticationManager;
     private IPacienteService pacienteService;
@@ -45,11 +45,11 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
 
-    public AuthController(AuthenticationManager authenticationManager,
-                          IPacienteService pacienteService,
-                          IPerfilService perfilService,
-                          PasswordEncoder passwordEncoder,
-                          JwtTokenProvider jwtTokenProvider) {
+    public PacienteAuthController(AuthenticationManager authenticationManager,
+                                  IPacienteService pacienteService,
+                                  IPerfilService perfilService,
+                                  PasswordEncoder passwordEncoder,
+                                  JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.pacienteService = pacienteService;
         this.perfilService = perfilService;
@@ -62,9 +62,9 @@ public class AuthController {
      * @param loginRequest
      * @return
      */
-    @PostMapping("/paciente/login")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticatePaciente(
-            @Valid @RequestBody LoginRequest loginRequest) {
+            @Valid @RequestBody PacienteLoginRequest loginRequest) {
 
         // autenticando al usuario en cuestion
         Authentication authentication = authenticationManager.authenticate(
@@ -78,7 +78,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // asignando un token al paciente logueado
-        String jwt = jwtTokenProvider.generateToken(authentication);
+        String jwt = jwtTokenProvider.generateToken(authentication, PerfilName.PACIENTE);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
@@ -88,9 +88,9 @@ public class AuthController {
      * @param signUpRequest los datos del nuevo paciente
      * @return
      */
-    @PostMapping("/paciente/register")
+    @PostMapping("/register")
     public ResponseEntity<?> registerPaciente(
-            @Valid @RequestBody SignUpRequest signUpRequest) {
+            @Valid @RequestBody PacienteSignUpRequest signUpRequest) {
 
         // validando disponibilidad de el username
         if(pacienteService.existsByUsername(signUpRequest.getUsername())) {
@@ -133,7 +133,7 @@ public class AuthController {
                 ));
     }
 
-    public Paciente mappingPaciente(Paciente paciente, SignUpRequest pacienteVO) {
+    public Paciente mappingPaciente(Paciente paciente, PacienteSignUpRequest pacienteVO) {
         paciente.setUsername(pacienteVO.getUsername());
         paciente.setEmail(pacienteVO.getEmail());
         paciente.setPassword(passwordEncoder.encode(pacienteVO.getPassword()));

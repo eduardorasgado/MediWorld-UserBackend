@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * @deprecated
  * DEPRECATED
  * <h1>PacienteResource</h1>
  * Controlador rest que recibe request y envia datos al frontend que lo requiera

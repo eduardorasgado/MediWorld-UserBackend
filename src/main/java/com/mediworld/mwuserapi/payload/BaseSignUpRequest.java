@@ -8,17 +8,13 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
- * <h1>SignUpRequest</h1>
- * Payload de tipo Request
- * Clase que representa un payload para la peticion a la api, para el registro del user
+ * <h1>BaseSignUpRequest</h1>
+ * Clase base para los payloads de registro de medico/paciente
  *
  * @author Eduardo Rasgado Ruiz
  */
 @Data
-public class SignUpRequest {
-    @NotBlank
-    @Size(max = 30, min = 3)
-    private String username;
+public class BaseSignUpRequest {
     @NotBlank
     @Size(max = 50, min = 6)
     @Email
@@ -32,7 +28,6 @@ public class SignUpRequest {
     @NotBlank
     @Size(max = 70, min = 2)
     private String apellidos;
-    private Date fechaNacimiento;
     @Size(max=10)
     private String genero;
 }

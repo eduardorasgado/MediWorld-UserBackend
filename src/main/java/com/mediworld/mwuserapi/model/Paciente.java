@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -42,4 +44,10 @@ public class Paciente extends Usuario {
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_preferableLanguage")
     private Language preferableLanguage;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "paciente_perfiles",
+            joinColumns = @JoinColumn(name = "paciente_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    private Set<Perfil> perfiles = new HashSet<>();
 }

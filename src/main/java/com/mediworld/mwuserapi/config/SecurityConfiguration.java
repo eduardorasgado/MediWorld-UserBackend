@@ -1,8 +1,6 @@
 package com.mediworld.mwuserapi.config;
 
-import com.mediworld.mwuserapi.security.JwtAuthenticationEntryPoint;
-import com.mediworld.mwuserapi.security.JwtAuthenticationFilter;
-import com.mediworld.mwuserapi.security.PacienteDetailsService;
+import com.mediworld.mwuserapi.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,44 +37,41 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 @Configuration
 public class SecurityConfiguration {
+    /**
+     * Bean de filtro de autenticacion
+     * @return
+     */
+    @Bean
+    public static JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    /**
+     * Bean de encriptacion de contrasena
+     * @return
+     */
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Configuration
-    public class PacienteSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    public static class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
-        PacienteDetailsService pacienteDetailsService;
+        protected JwtAuthenticationEntryPoint unauthorizedHandler;
 
         @Autowired
-        JwtAuthenticationEntryPoint unauthorizedHandler;
+        private AuthDetailsService authDetailsService;
 
-        /**
-         * Bean de filtro de autenticacion
-         * @return
-         */
-        @Bean
-        public JwtAuthenticationFilter jwtAuthenticationFilter() {
-            return new JwtAuthenticationFilter();
-        }
+        @Autowired
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-        /**
-         * Bean de encriptacion de contrasena
-         * @return
-         */
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
+        @Autowired
+        private PasswordEncoder passwordEncoder;
 
-        /**
-         * Configutracion de como se administra la autenticacion de los pacientes
-         * @param authenticationManagerBuilder
-         * @throws Exception
-         */
-        @Override
-        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
-                throws Exception {
-            authenticationManagerBuilder
-                    .userDetailsService(this.pacienteDetailsService)
-                    .passwordEncoder(this.passwordEncoder());
+
+        public UserSecurityConfiguration() {
+            super();
         }
 
         /**
@@ -88,6 +83,19 @@ public class SecurityConfiguration {
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
+        }
+
+        /**
+         * Configutracion de como se administra la autenticacion de los pacientes
+         * @param authenticationManagerBuilder
+         * @throws Exception
+         */
+        @Override
+        public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+                throws Exception {
+            authenticationManagerBuilder
+                    .userDetailsService(this.authDetailsService)
+                    .passwordEncoder(passwordEncoder);
         }
 
         /**
@@ -110,6 +118,7 @@ public class SecurityConfiguration {
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
+                    .antMatcher("/api/paciente/**")
                     .authorizeRequests()
                     // permitir request anonimos de recursos
                     //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
@@ -129,7 +138,8 @@ public class SecurityConfiguration {
                             "/**/*.css",
                             "/**/*.js")
                     .permitAll()
-                    .antMatchers("/api/auth/**",
+                    // PACIENTE
+                    .antMatchers("/api/paciente/auth/**",
                             "/api/language/**",
                             "/api/country/**")
                     .permitAll()
@@ -139,12 +149,21 @@ public class SecurityConfiguration {
                     .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/paciente/**")
                     .permitAll()
+                    .antMatchers("/api/paciente/preferableLanguage")
+                    .permitAll()
+                    // MEDICO
+                    .antMatchers("/api/medico/auth/**")
+                    .permitAll()
+                    .antMatchers( "/api/medico/checkEmailAvailability")
+                    .permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/medico/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated();
 
             // agregando nuestro filtro JWT de seguridad personalizado
             http
-                    .addFilterBefore(jwtAuthenticationFilter(),
+                    .addFilterBefore(jwtAuthenticationFilter,
                             UsernamePasswordAuthenticationFilter.class);
 
             // disable page caching

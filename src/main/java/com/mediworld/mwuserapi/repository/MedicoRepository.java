@@ -49,4 +49,11 @@ public interface MedicoRepository extends JpaRepository<Medico, String> {
             EspecialidadMedica especialidadMedica, Country country
     );
 
+    /**
+     * Metodo que devuelve la existencia de un medico con determinado email en la db
+     * @param email
+     * @return
+     */
+    boolean existsByEmail(String email);
+
 }

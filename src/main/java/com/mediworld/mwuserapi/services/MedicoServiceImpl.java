@@ -150,4 +150,16 @@ public class MedicoServiceImpl implements IMedicoService{
                 country
         );
     }
+
+    /**
+     * Metodo que devuelve la disponibilidad de un correo determinado dentro de
+     * la base de datos de los usuarios de tipo medico
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean existsByEmail(String email) {
+        return this.medicoRepository.existsByEmail(email);
+    }
 }

@@ -1,8 +1,9 @@
 package com.mediworld.mwuserapi.security;
 
 import com.mediworld.mwuserapi.exception.ResourceNotFoundException;
-import com.mediworld.mwuserapi.model.Paciente;
-import com.mediworld.mwuserapi.repository.PacienteRepository;
+import com.mediworld.mwuserapi.model.Medico;
+import com.mediworld.mwuserapi.repository.MedicoRepository;
+import com.mediworld.mwuserapi.services.IMedicoService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,20 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * <h1>PacienteDetailsService</h1>
- * Interfaz que permite cargar un paciente en base a su username
- *
- * @author Eduardo Rasgado Ruiz
- */
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
-public class PacienteDetailsService implements UserDetailsService {
+public class MedicoDetailsService implements UserDetailsService {
 
-    private PacienteRepository pacienteRepository;
+    private MedicoRepository medicoRepository;
 
-    public PacienteDetailsService(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
+    public MedicoDetailsService(MedicoRepository medicoRepository){
+        this.medicoRepository = medicoRepository;
     }
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -40,25 +35,20 @@ public class PacienteDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Paciente> paciente = this.pacienteRepository.findByUsername(username);
-        if(paciente.isPresent()){
-            return PacientePrincipal.create(paciente.get());
+        Optional<Medico> medico = this.medicoRepository.findByEmail(username);
+        if(medico.isPresent()){
+            return MedicoPrincipal.create(medico.get());
         }
-        throw new UsernameNotFoundException("Usuario no encontrado con nombre de usuario");
+
+        throw new UsernameNotFoundException("Usuario tipo medico no encotrado usando el email");
     }
 
-    /**
-     * encuentra un ususario dado su id y lo devuelve con sus authorities
-     * @param id
-     * @return
-     */
     public UserDetails loadUserById(String id) {
-        System.out.println((id));
-        Optional<Paciente> paciente = this.pacienteRepository.findById(id);
-        if(paciente.isPresent()) {
-            return PacientePrincipal.create(paciente.get());
+        Optional<Medico> medico = this.medicoRepository.findById(id);
+        if(medico.isPresent()){
+            return MedicoPrincipal.create(medico.get());
         }
-        throw new ResourceNotFoundException("Paciente", "id", id);
+
+        throw  new ResourceNotFoundException("Medico", "id", id);
     }
 }
-

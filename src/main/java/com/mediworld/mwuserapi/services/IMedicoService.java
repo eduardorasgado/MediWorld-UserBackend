@@ -90,5 +90,11 @@ public interface IMedicoService {
             Country country
     );
 
-
+    /**
+     * Metodo que devuelve la disponibilidad de un correo determinado dentro de
+     * la base de datos de los usuarios de tipo medico
+     * @param email
+     * @return
+     */
+    boolean existsByEmail(String email);
 }
