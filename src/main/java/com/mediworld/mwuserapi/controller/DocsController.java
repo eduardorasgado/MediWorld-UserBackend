@@ -8,7 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
+ * <h1>DocsController</h1>
  * Controlador rest para el acceso a la docuementacion misma
+ *
+ * @author Eduardo Rasgado Ruiz
  */
 @RestController
 @RequestMapping("/")

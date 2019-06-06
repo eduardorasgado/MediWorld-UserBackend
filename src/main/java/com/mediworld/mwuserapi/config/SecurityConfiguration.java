@@ -2,6 +2,7 @@ package com.mediworld.mwuserapi.config;
 
 import com.mediworld.mwuserapi.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -57,6 +58,9 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Clase de configuracion de seguridad para el acceso de los usuarios a la api
+     */
     @Configuration
     @Order(1)
     public static class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -172,12 +176,20 @@ public class SecurityConfiguration {
     }
 
     /**
+     * <h1>DocsSecurityConfiguration</h1>
      * Configuracion para la documentacion de swagger, se configura un formulario de
      * login
+     *
+     * @author Eduardo Rasgado Ruiz
      */
     @Configuration
     @Order(2)
     public static class DocsSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Value("${admin.auth.username}")
+        private String username;
+        @Value(("${admin.auth.password}"))
+        private String password;
 
         @Autowired
         private PasswordEncoder passwordEncoder;
@@ -187,8 +199,8 @@ public class SecurityConfiguration {
 
             auth
                     .inMemoryAuthentication()
-                    .withUser("QA76")
-                    .password(passwordEncoder.encode("t*rQCL*Bz6g6"))
+                    .withUser(username)
+                    .password(passwordEncoder.encode(password))
                     .roles("ADMIN");
         }
 

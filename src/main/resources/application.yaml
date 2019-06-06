@@ -8,6 +8,9 @@ admin:
     license: Mediworld Ownership
     licenseUrl: #
     termsService: none
+  auth:
+    username: QA76
+    password: t*rQCL*Bz6g6
 app:
   jwtPacienteSecretKey: MediWorld74gcKypJChhzf19fPacienteKey
   jwtMedicoSecretKey: MediWorld74gcKypJChhzf19fMedicoKey
