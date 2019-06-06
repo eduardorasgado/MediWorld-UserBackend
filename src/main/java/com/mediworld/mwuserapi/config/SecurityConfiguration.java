@@ -4,12 +4,14 @@ import com.mediworld.mwuserapi.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -56,6 +58,7 @@ public class SecurityConfiguration {
     }
 
     @Configuration
+    @Order(1)
     public static class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Autowired
         protected JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -108,6 +111,7 @@ public class SecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
 
             http
+
                     .cors()
                     .and()
                     .csrf()
@@ -118,17 +122,12 @@ public class SecurityConfiguration {
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
-                    .antMatcher("/api/paciente/**")
+                    .antMatcher("/api/**")
                     .authorizeRequests()
                     // permitir request anonimos de recursos
                     //los recursos que no aparecen aqui van a estar prohibidos para todos los usuarios
                     .antMatchers(
                             HttpMethod.GET,
-                            "/",
-                            "/v2/api-docs",           // swagger
-                            "/webjars/**",            // swagger-ui webjars
-                            "/swagger-resources/**",  // swagger-ui resources
-                            "/configuration/**", // swagger configuration
                             "/favicon.ico",
                             "/**/*.png",
                             "/**/*.gif",
@@ -169,6 +168,54 @@ public class SecurityConfiguration {
             // disable page caching
             http
                     .headers().cacheControl();
+        }
+    }
+
+    /**
+     * Configuracion para la documentacion de swagger, se configura un formulario de
+     * login
+     */
+    @Configuration
+    @Order(2)
+    public static class DocsSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+            auth
+                    .inMemoryAuthentication()
+                    .withUser("QA76")
+                    .password(passwordEncoder.encode("t*rQCL*Bz6g6"))
+                    .roles("ADMIN");
+        }
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
+                    .antMatchers("/swagger-ui.html")
+                    .permitAll()
+                    .and()
+                    .httpBasic()
+                    .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        }
+
+        @Override
+        public void configure(WebSecurity web) throws  Exception {
+            web.ignoring().antMatchers(
+                    "/resources/**",
+                    "/static/**",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+            );
         }
     }
 }
