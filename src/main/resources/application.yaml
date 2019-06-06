@@ -40,8 +40,3 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
     time-zone: UTC
-
-  # queries que corren durante el logueo de un admin en swagger: NO USADO ACTUALMENTE
-  queries:
-    users-query: SELECT username, password, status FROM usuario WHERE username=?
-    roles-query: SELECT username, role FROM role WHERE username =?
