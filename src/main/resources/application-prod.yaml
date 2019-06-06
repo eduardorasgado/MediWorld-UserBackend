@@ -1,0 +1,46 @@
+admin:
+  contact: eduardo.ragado@hotmail.com
+  name: Eduardo Rasgado
+  doc:
+    title: MediWorld User API Documentation
+    description: Mediworld User business API documentation
+    version: 1.0.0
+    license: Mediworld Ownership
+    licenseUrl: #
+    termsService: none
+  auth:
+    username: ${ADMIN_USERNAME}
+    password: ${ADMIN_PASSWORD}
+app:
+  jwtPacienteSecretKey: MediWorld74gcKypJChhzf19fPacienteKey
+  jwtMedicoSecretKey: MediWorld74gcKypJChhzf19fMedicoKey
+  # 7 dias aproximados de expiracion del token
+  jwtExpirationInMs: 604800000
+spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    maxActive: 10
+    maxIdle: 5
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          # permite ajustar la zona horaria con la que se guardan fechas en la db
+          time_zone: America/Mexico_City
+          lob:
+            non_contextual_creation: true
+  # Jackson properties
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    time-zone: UTC
