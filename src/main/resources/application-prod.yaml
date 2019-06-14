@@ -29,8 +29,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
-    generate-ddl: true
+      ddl-auto: update
+    generate-ddl: false
     show-sql: false
     properties:
       hibernate:
