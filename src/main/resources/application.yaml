@@ -34,10 +34,6 @@ spring:
           time_zone: America/Mexico_City
           lob:
             non_contextual_creation: true
-  security:
-    user:
-      name: userapi
-      password: mediworlduserapi
   # Jackson properties
   jackson:
     serialization:

@@ -40,7 +40,8 @@ public class MedicoController {
                 currentMedico.getId(),
                 currentMedico.getEmail(),
                 currentMedico.getNombre(),
-                currentMedico.getApellidos()
+                currentMedico.getApellidos(),
+                currentMedico.getGenero()
         );
         return medicoProfile;
     }

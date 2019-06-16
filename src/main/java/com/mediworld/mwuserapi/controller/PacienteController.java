@@ -55,8 +55,9 @@ public class PacienteController {
                 currentPaciente.getId(),
                 currentPaciente.getUsername(),
                 currentPaciente.getNombre(),
-                currentPaciente.getApellidos()
-        );
+                currentPaciente.getApellidos(),
+                currentPaciente.getGenero()
+                );
         if(!currentPaciente.getPaisNacimiento().isEmpty() ){
             pacienteProfile.setPaisNacimiento(currentPaciente.getPaisNacimiento());
         }
@@ -90,7 +91,9 @@ public class PacienteController {
             PacienteProfile pacienteProfile = new PacienteProfile(paciente.getId(),
                     paciente.getUsername(),
                     paciente.getNombre(),
-                    paciente.getApellidos());
+                    paciente.getApellidos(),
+                    paciente.getGenero());
+
 
             return ResponseEntity.ok(pacienteProfile);
         }
@@ -135,7 +138,8 @@ public class PacienteController {
                     p.getId(),
                     p.getUsername(),
                     p.getNombre(),
-                    p.getApellidos()
+                    p.getApellidos(),
+                    p.getGenero()
             );
             pacientes.add(pacienteResponse);
         }
