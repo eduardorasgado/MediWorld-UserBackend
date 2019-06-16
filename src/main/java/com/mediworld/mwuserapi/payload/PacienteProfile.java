@@ -19,8 +19,8 @@ public class PacienteProfile extends Profile {
     private String username;
 
     public PacienteProfile(String id, String username, String nombre,
-                           String apellidos, Genero genero) {
-        super(id, nombre, apellidos, genero.name());
+                           String apellidos, Genero genero, String email) {
+        super(id, nombre, apellidos, genero.name(), email);
         this.username = username;
     }
 }

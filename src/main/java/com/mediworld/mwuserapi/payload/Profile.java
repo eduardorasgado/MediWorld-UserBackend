@@ -22,11 +22,14 @@ public class Profile {
     private String paisNacimiento;
     private String paisResidencia;
     private String genero;
+    private String email;
 
-    public Profile(String id, String nombre, String apellidos, String genero) {
+    public Profile(String id, String nombre, String apellidos, String genero,
+                   String email) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.genero = genero;
+        this.email = email;
     }
 }

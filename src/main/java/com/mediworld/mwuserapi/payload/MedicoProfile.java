@@ -14,7 +14,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class MedicoProfile extends Profile {
 
-    public MedicoProfile(String id, String email, String nombre, String apellidos, Genero genero) {
-        super(id, nombre, apellidos, genero.name());
+    public MedicoProfile(String id, String email, String nombre,
+                         String apellidos, Genero genero) {
+        super(id, nombre, apellidos, genero.name(), email);
     }
 }
