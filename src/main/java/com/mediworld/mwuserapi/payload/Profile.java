@@ -21,10 +21,12 @@ public class Profile {
     private LanguageResponse language;
     private String paisNacimiento;
     private String paisResidencia;
+    private String genero;
 
-    public Profile(String id, String nombre, String apellidos) {
+    public Profile(String id, String nombre, String apellidos, String genero) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.genero = genero;
     }
 }
