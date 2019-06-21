@@ -40,6 +40,8 @@ public class PacientePrincipal implements UserDetails {
     @JsonIgnore
     private Genero genero;
     @JsonIgnore
+    private Genero generoConviccion;
+    @JsonIgnore
     private String email = "";
     @JsonIgnore
     private LanguageCode preferableLanguageCode;
@@ -167,6 +169,10 @@ public class PacientePrincipal implements UserDetails {
                     .equals(AppConstants.MUJER)){
                 paAuth.setGenero(pa.getGenero());
             }
+        }
+
+        if(pa.getGeneroConviccion() != null) {
+            paAuth.setGeneroConviccion(pa.getGeneroConviccion());
         }
         return paAuth;
     }
