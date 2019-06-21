@@ -1,8 +1,8 @@
-package com.mediworld.mwuserapi.payload;
+package com.mediworld.mwuserapi.payload.user.request;
 
+import com.mediworld.mwuserapi.payload.user.request.BaseSignUpRequest;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.Date;
  * @author Eduardo Rasgado Ruiz
  */
 @Data
-public class PacienteSignUpRequest extends BaseSignUpRequest{
+public class PacienteSignUpRequest extends BaseSignUpRequest {
     @NotBlank
     @Size(max = 30, min = 3)
     private String username;
