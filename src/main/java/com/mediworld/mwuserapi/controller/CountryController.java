@@ -1,8 +1,8 @@
 package com.mediworld.mwuserapi.controller;
 
 import com.mediworld.mwuserapi.model.Country;
-import com.mediworld.mwuserapi.payload.CountryResponse;
-import com.mediworld.mwuserapi.payload.LanguageResponse;
+import com.mediworld.mwuserapi.payload.response.CountryResponse;
+import com.mediworld.mwuserapi.payload.response.LanguageResponse;
 import com.mediworld.mwuserapi.services.ICountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

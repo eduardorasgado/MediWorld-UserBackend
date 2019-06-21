@@ -1,8 +1,7 @@
 package com.mediworld.mwuserapi.controller;
 
-import com.mediworld.mwuserapi.model.Medico;
-import com.mediworld.mwuserapi.payload.MedicoProfile;
-import com.mediworld.mwuserapi.payload.UserAuthDataAvailability;
+import com.mediworld.mwuserapi.payload.user.response.MedicoProfile;
+import com.mediworld.mwuserapi.payload.user.response.UserAuthDataAvailability;
 import com.mediworld.mwuserapi.security.CurrentUsuario;
 import com.mediworld.mwuserapi.security.MedicoPrincipal;
 import com.mediworld.mwuserapi.services.IMedicoService;
