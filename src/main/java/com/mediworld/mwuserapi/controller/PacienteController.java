@@ -1,8 +1,6 @@
 package com.mediworld.mwuserapi.controller;
 
-import com.mediworld.mwuserapi.model.Language;
-import com.mediworld.mwuserapi.model.LanguageCode;
-import com.mediworld.mwuserapi.model.Paciente;
+import com.mediworld.mwuserapi.model.*;
 import com.mediworld.mwuserapi.payload.request.PreferableLanguageRequest;
 import com.mediworld.mwuserapi.payload.response.ApiResponse;
 import com.mediworld.mwuserapi.payload.response.LanguageResponse;
@@ -10,6 +8,7 @@ import com.mediworld.mwuserapi.payload.user.response.PacienteProfile;
 import com.mediworld.mwuserapi.payload.user.response.UserAuthDataAvailability;
 import com.mediworld.mwuserapi.security.CurrentUsuario;
 import com.mediworld.mwuserapi.security.PacientePrincipal;
+import com.mediworld.mwuserapi.services.ICountryService;
 import com.mediworld.mwuserapi.services.ILanguageService;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.slf4j.Logger;
@@ -37,12 +36,16 @@ public class PacienteController {
 
     private ILanguageService languageService;
 
+    private ICountryService countryService;
+
     private static final Logger logger = LoggerFactory.getLogger(PacienteController.class);
 
     public PacienteController(IPacienteService pacienteService,
-                              ILanguageService languageService) {
+                              ILanguageService languageService,
+                              ICountryService countryService) {
         this.pacienteService = pacienteService;
         this.languageService = languageService;
+        this.countryService = countryService;
     }
 
     /**
@@ -209,18 +212,86 @@ public class PacienteController {
             @CurrentUsuario PacientePrincipal currentPaciente,
             @RequestBody PacienteProfile pacienteRequest
     ) {
-
-        PacienteProfile pacienteProfile = new PacienteProfile();
-
-        if(pacienteRequest.getUsername() == currentPaciente.getUsername()) {
+        if(pacienteRequest.getUsername().equals(currentPaciente.getUsername())) {
+            Paciente paciente = this.pacienteService.findByUsername(currentPaciente.getUsername());
             // es etico cambiar el nombre y los apellidos??
             if(pacienteRequest.getNombre() != null){
-                //
+                paciente.setNombre(pacienteRequest.getNombre());
             }
+            if(pacienteRequest.getApellidos() != null) {
+                paciente.setApellidos(pacienteRequest.getApellidos());
+            }
+            if(pacienteRequest.getGenero() != null) {
+                Genero genero;
+                try {
+                    genero = Genero.valueOf(pacienteRequest.getGenero());
+                    paciente.setGenero(genero);
+                } catch(Exception e) {
+                    logger.error("Se ha producido un error en patch de paciente: {}",
+                            e.getMessage());
+                }
+            }
+            if(pacienteRequest.getGeneroConviccion() != null) {
+                Genero genero;
+                try {
+                    genero = Genero.valueOf(pacienteRequest.getGeneroConviccion());
+                    paciente.setGeneroConviccion(genero);
+                } catch(Exception e) {
+                    logger.error("Se ha producido un error en patch de paciente: {}",
+                            e.getMessage());
+                }
+            }
+            if(pacienteRequest.getPaisNacimiento() != null) {
+                Country country;
+                country = this.countryService.findByName(pacienteRequest.getPaisNacimiento());
+                if(country != null) {
+                    paciente.setPaisNacimiento(country);
+                } else {
+                    logger.error("El pais de nacimiento resultante de mapear el pais del paciente " +
+                            "request es nulo debido a un pais desconocido proveniente del request," +
+                            "en Patch Paciente Controller");
+                }
+            }
+            if(pacienteRequest.getPaisResidencia() != null) {
+                Country country;
+                country = this.countryService.findByName(pacienteRequest.getPaisResidencia());
+                if(country != null) {
+                    paciente.setPaisResidencia(country);
+                } else {
+                    logger.error("El pais de Residencia resultante de mapear el pais del paciente " +
+                            "request es nulo debido a un pais desconocido proveniente del request," +
+                            "en Patch Paciente Controller");
+                }
+            }
+            this.pacienteService.update(paciente);
+            PacienteProfile pacienteProfile;
+            pacienteProfile = mappingPacienteToPacienteRequest(paciente);
+
             return new ResponseEntity<>(pacienteProfile, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
     }
 
+    private PacienteProfile mappingPacienteToPacienteRequest(
+            Paciente paciente ) {
+        PacienteProfile pacienteProfile = new PacienteProfile(
+                paciente.getId(),
+                paciente.getUsername(),
+                paciente.getNombre(),
+                paciente.getApellidos(),
+                paciente.getGenero(),
+                paciente.getEmail()
+        );
+        if(paciente.getGeneroConviccion() != null) {
+            pacienteProfile.setGeneroConviccion(paciente.getGeneroConviccion().name());
+        }
+        if(paciente.getPaisNacimiento() != null) {
+            pacienteProfile.setPaisNacimiento(paciente.getPaisNacimiento().getName());
+        }
+        if(paciente.getPaisResidencia() != null) {
+            pacienteProfile.setPaisResidencia(paciente.getPaisResidencia().getName());
+        }
+
+        return pacienteProfile;
+    }
 }
