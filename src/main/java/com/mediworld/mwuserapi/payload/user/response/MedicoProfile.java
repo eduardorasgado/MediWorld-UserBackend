@@ -1,6 +1,7 @@
-package com.mediworld.mwuserapi.payload;
+package com.mediworld.mwuserapi.payload.user.response;
 
 import com.mediworld.mwuserapi.model.Genero;
+import com.mediworld.mwuserapi.payload.user.response.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

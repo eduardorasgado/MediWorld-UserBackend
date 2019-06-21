@@ -1,6 +1,7 @@
-package com.mediworld.mwuserapi.payload;
+package com.mediworld.mwuserapi.payload.user.response;
 
 import com.mediworld.mwuserapi.model.Genero;
+import com.mediworld.mwuserapi.payload.user.response.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PacienteProfile extends Profile {
     private String username;
+    private String generoConviccion;
 
     public PacienteProfile(String id, String username, String nombre,
                            String apellidos, Genero genero, String email) {
         super(id, nombre, apellidos, genero.name(), email);
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "PacienteProfile{" +
+                "username='" + username + '\'' +
+                ", generoConviccion='" + generoConviccion + '\'' +
+                "} " + super.toString();
     }
 }

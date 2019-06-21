@@ -1,5 +1,6 @@
-package com.mediworld.mwuserapi.payload;
+package com.mediworld.mwuserapi.payload.user.response;
 
+import com.mediworld.mwuserapi.payload.response.LanguageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
