@@ -8,5 +8,9 @@ package com.mediworld.mwuserapi.model;
  */
 public enum Genero {
     HOMBRE,
-    MUJER
+    MUJER,
+    TRANSEXUAL,
+    LESBIANA,
+    HOMOSEXUAL,
+    OTRO
 }

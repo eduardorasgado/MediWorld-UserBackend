@@ -2,17 +2,11 @@ package com.mediworld.mwuserapi.resources;
 
 import com.mediworld.mwuserapi.model.Genero;
 import com.mediworld.mwuserapi.model.Paciente;
-import com.mediworld.mwuserapi.payload.PacienteProfile;
 import com.mediworld.mwuserapi.resources.vo.PacienteVO;
 import com.mediworld.mwuserapi.services.IPacienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @deprecated

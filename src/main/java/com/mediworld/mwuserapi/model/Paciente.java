@@ -45,6 +45,9 @@ public class Paciente extends Usuario {
     @JoinColumn(name = "id_preferableLanguage")
     private Language preferableLanguage;
 
+    @Enumerated(value = EnumType.STRING)
+    private Genero generoConviccion;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "paciente_perfiles",
             joinColumns = @JoinColumn(name = "paciente_id"),
