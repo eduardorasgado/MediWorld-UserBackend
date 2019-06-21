@@ -3,7 +3,11 @@ package com.mediworld.mwuserapi.controller;
 import com.mediworld.mwuserapi.model.Language;
 import com.mediworld.mwuserapi.model.LanguageCode;
 import com.mediworld.mwuserapi.model.Paciente;
-import com.mediworld.mwuserapi.payload.*;
+import com.mediworld.mwuserapi.payload.request.PreferableLanguageRequest;
+import com.mediworld.mwuserapi.payload.response.ApiResponse;
+import com.mediworld.mwuserapi.payload.response.LanguageResponse;
+import com.mediworld.mwuserapi.payload.user.response.PacienteProfile;
+import com.mediworld.mwuserapi.payload.user.response.UserAuthDataAvailability;
 import com.mediworld.mwuserapi.security.CurrentUsuario;
 import com.mediworld.mwuserapi.security.PacientePrincipal;
 import com.mediworld.mwuserapi.services.ILanguageService;
@@ -59,6 +63,12 @@ public class PacienteController {
                 currentPaciente.getGenero(),
                 currentPaciente.getEmail()
                 );
+
+        if(currentPaciente.getGeneroConviccion() != null) {
+            pacienteProfile.setGeneroConviccion(
+                    currentPaciente.getGeneroConviccion().name()
+            );
+        }
         if(!currentPaciente.getPaisNacimiento().isEmpty() ){
             pacienteProfile.setPaisNacimiento(currentPaciente.getPaisNacimiento());
         }
@@ -85,7 +95,8 @@ public class PacienteController {
      */
     @GetMapping("/{username}")
     @PreAuthorize("hasAuthority('PACIENTE') or hasAuthority('PACIENTE_ACTIVE')")
-    public ResponseEntity<PacienteProfile> getPacienteProfile(@PathVariable(value="username")  String username) {
+    public ResponseEntity<PacienteProfile> getPacienteProfile(
+            @PathVariable(value="username")  String username) {
         Paciente paciente = this.pacienteService.findByUsername(username);
 
         if(paciente != null){
@@ -96,6 +107,12 @@ public class PacienteController {
                     paciente.getGenero(),
                     paciente.getEmail()
             );
+
+            if(paciente.getGeneroConviccion() != null) {
+                pacienteProfile.setGeneroConviccion(
+                        paciente.getGeneroConviccion().name()
+                );
+            }
 
 
             return ResponseEntity.ok(pacienteProfile);
@@ -177,6 +194,33 @@ public class PacienteController {
         return new ResponseEntity<>(new ApiResponse(
                 false, "No existe el lenguaje determinado"
         ), HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Metodo para actualizar parcialmente los datos del paciente, para esto
+     * el paciente debe de estar logueado y enviar los datos a actualizar,
+     * incluyendo el username original, este username no debe de exceder
+     * @param currentPaciente
+     * @param pacienteRequest
+     * @return
+     */
+    @PatchMapping
+    public ResponseEntity<PacienteProfile> updatePaciente(
+            @CurrentUsuario PacientePrincipal currentPaciente,
+            @RequestBody PacienteProfile pacienteRequest
+    ) {
+
+        PacienteProfile pacienteProfile = new PacienteProfile();
+
+        if(pacienteRequest.getUsername() == currentPaciente.getUsername()) {
+            // es etico cambiar el nombre y los apellidos??
+            if(pacienteRequest.getNombre() != null){
+                //
+            }
+            return new ResponseEntity<>(pacienteProfile, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
     }
 
 }
