@@ -1,4 +1,4 @@
-package com.mediworld.mwuserapi.payload;
+package com.mediworld.mwuserapi.payload.request;
 
 import lombok.Data;
 
